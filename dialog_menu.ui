@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog_menu</class>
+ <widget class="QDialog" name="Dialog_menu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButton_GestionPersonnelsMain">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>220</y>
+     <width>381</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 30px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>GESTION DES PERSONNELS</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_GestionFournisseurMain">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>380</y>
+     <width>381</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 30px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>GESTION DES FOURNISSEURS</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_BGMain">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>700</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/new/Image/Images/BGMain.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_GestionSponsorsMain">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>540</y>
+     <width>381</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 30px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>GESTION DES sponsors</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_ReturnMain">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>610</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 20px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(189, 96, 96, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>RETURN</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_GestionEvenementsMain">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>300</y>
+     <width>381</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 30px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>GESTION DES éVENEMENTS</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_GestionLocauxMain">
+   <property name="geometry">
+    <rect>
+     <x>410</x>
+     <y>460</y>
+     <width>381</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 30px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>GESTION DES LOCAUX</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_QuitterMain">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>610</y>
+     <width>161</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 20px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(189, 96, 96, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </widget>
+  <zorder>label_BGMain</zorder>
+  <zorder>pushButton_GestionPersonnelsMain</zorder>
+  <zorder>pushButton_GestionFournisseurMain</zorder>
+  <zorder>pushButton_GestionSponsorsMain</zorder>
+  <zorder>pushButton_ReturnMain</zorder>
+  <zorder>pushButton_GestionEvenementsMain</zorder>
+  <zorder>pushButton_GestionLocauxMain</zorder>
+  <zorder>pushButton_QuitterMain</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

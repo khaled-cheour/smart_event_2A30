@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/new/Image">
+        <file>Images/BGMain.png</file>
+        <file>Images/BGSponsoring.png</file>
+        <file>Images/BGlogin.png</file>
+    </qresource>
+</RCC>
