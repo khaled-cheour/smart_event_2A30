@@ -1,5 +1,0 @@
-Tue Oct 25 05:58:05 2022 App started
-Tue Oct 25 09:16:19 2022 App started
-Tue Oct 25 09:31:16 2022 App started
-Thu Oct 27 22:20:11 2022 App started
-Thu Oct 27 22:38:31 2022 App started
