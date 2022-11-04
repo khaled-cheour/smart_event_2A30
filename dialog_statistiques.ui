@@ -44,13 +44,32 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
   <widget class="QCustomPlot" name="plot" native="true">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>1181</width>
-     <height>641</height>
+     <x>0</x>
+     <y>0</y>
+     <width>1201</width>
+     <height>651</height>
     </rect>
    </property>
   </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>5</y>
+     <width>1200</width>
+     <height>700</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/new/prefix1/Images/BGSponsoring.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>pushButton_Fermer</zorder>
+  <zorder>plot</zorder>
  </widget>
  <customwidgets>
   <customwidget>

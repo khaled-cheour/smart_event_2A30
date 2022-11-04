@@ -34,7 +34,7 @@ void Dialog_Statistiques::MakeStat()
 {
     // Background
     QLinearGradient gradient(0, 0, 0, 400);
-    gradient.setColorAt(0, QColor(182, 182, 182));
+    gradient.setColorAt(0, QColor(255, 255, 255, 150));
     ui->plot->setBackground(QBrush(gradient));
     QCPBars *A = new QCPBars(ui->plot->xAxis, ui->plot->yAxis);
     A->setAntialiased(false);
