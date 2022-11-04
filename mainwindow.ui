@@ -17,7 +17,7 @@
    <widget class="QComboBox" name="comboBox_ID">
     <property name="geometry">
      <rect>
-      <x>610</x>
+      <x>820</x>
       <y>130</y>
       <width>130</width>
       <height>22</height>
@@ -44,7 +44,7 @@
      <rect>
       <x>10</x>
       <y>100</y>
-      <width>551</width>
+      <width>781</width>
       <height>211</height>
      </rect>
     </property>
@@ -219,45 +219,14 @@ QLineEdit:hover {
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_MP4">
+    <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>410</x>
-       <y>170</y>
-       <width>101</width>
-       <height>31</height>
+       <x>520</x>
+       <y>30</y>
+       <width>240</width>
+       <height>138</height>
       </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Montserrat SemiBold</family>
-       <pointsize>9</pointsize>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-background-color: rgba(199, 153, 207, 200);
-border-radius: 15px;
-}
-QPushButton:hover {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(207, 188, 153, 200), stop:1 rgba(199, 153, 207, 200));
-}</string>
-     </property>
-     <property name="text">
-      <string>MP4</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_VideoMP4">
-     <property name="geometry">
-      <rect>
-       <x>390</x>
-       <y>10</y>
-       <width>150</width>
-       <height>150</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
      </property>
      <property name="text">
       <string/>
@@ -336,7 +305,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <widget class="QPushButton" name="pB_Modifier">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>830</x>
       <y>200</y>
       <width>110</width>
       <height>31</height>
@@ -380,7 +349,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <widget class="QPushButton" name="pB_Supprimer">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>830</x>
       <y>240</y>
       <width>110</width>
       <height>31</height>
@@ -408,7 +377,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <widget class="QPushButton" name="pB_Ajouter">
     <property name="geometry">
      <rect>
-      <x>620</x>
+      <x>830</x>
       <y>160</y>
       <width>111</width>
       <height>31</height>
@@ -549,7 +518,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
      <rect>
       <x>10</x>
       <y>360</y>
-      <width>761</width>
+      <width>781</width>
       <height>241</height>
      </rect>
     </property>
@@ -604,8 +573,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <widget class="QPushButton" name="pB_ExPDF">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>250</y>
+      <x>560</x>
+      <y>320</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -708,8 +677,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <widget class="QPushButton" name="pB_Stats">
     <property name="geometry">
      <rect>
-      <x>1040</x>
-      <y>210</y>
+      <x>680</x>
+      <y>320</y>
       <width>111</width>
       <height>31</height>
      </rect>
