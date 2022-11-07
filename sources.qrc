@@ -1,5 +1,15 @@
 <RCC>
-    <qresource prefix="/new/prefix1">
-        <file>Images/BGSponsoring.png</file>
+    <qresource prefix="/Images">
+        <file>Sources/Background.png</file>
+    </qresource>
+    <qresource prefix="/Videos">
+        <file>Sources/Pack1.mp4</file>
+        <file>Sources/Pack2.mp4</file>
+        <file>Sources/Pack3.mp4</file>
+    </qresource>
+    <qresource prefix="/Icons">
+        <file>Sources/control_pause.png</file>
+        <file>Sources/control_play.png</file>
+        <file>Sources/control_stop.png</file>
     </qresource>
 </RCC>

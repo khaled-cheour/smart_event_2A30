@@ -3,6 +3,11 @@
 
 #include <QMainWindow>
 #include "sponsoring.h"
+#include <QMediaPlayer>
+#include <QVideoWidget>
+#include <QFileDialog>
+#include <QProgressBar>
+#include <QSlider>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,5 +47,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     sponsoring S;
+    QMediaPlayer* player;
+    QVideoWidget* vw;
+    QProgressBar* bar;
+    QSlider* slider;
 };
 #endif // MAINWINDOW_H
