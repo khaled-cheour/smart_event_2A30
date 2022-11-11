@@ -1,7 +1,6 @@
 #include "dialog_statistiques.h"
 #include "ui_dialog_statistiques.h"
 #include "sponsoring.h"
-#include "qcustomplot.h"
 #include "mainwindow.h"
 
 Dialog_Statistiques::Dialog_Statistiques(QWidget *parent) :
@@ -9,7 +8,6 @@ Dialog_Statistiques::Dialog_Statistiques(QWidget *parent) :
     ui(new Ui::Dialog_Statistiques)
 {
     ui->setupUi(this);
-    Dialog_Statistiques::MakeStat();
 }
 
 Dialog_Statistiques::~Dialog_Statistiques()
@@ -17,84 +15,142 @@ Dialog_Statistiques::~Dialog_Statistiques()
     delete ui;
 }
 
-void Dialog_Statistiques::statistiques(QVector<double>* ticks,QVector<QString> *labels)
+//bar chart
+void Dialog_Statistiques::choix_bar()
 {
-    QSqlQuery qry;
-    int i=0;
-    qry.exec("SELECT ID FROM SPONSORING");
-    while (qry.next())
-    {
-        QString ID = qry.value(0).toString();
-        i++;
-        *ticks<<i;
-        *labels <<ID;
-    }
+QSqlQuery q1,q2,q3,q4;
+qreal tot=0,c1=0,c2=0,c3=0;
+
+q1.prepare("SELECT * FROM CRUD");
+q1.exec();
+
+q2.prepare("SELECT * FROM SPONSORING WHERE PACK='Pack 1' ");
+q2.exec();
+
+q3.prepare("SELECT * FROM SPONSORING WHERE PACK='Pack 2' ");
+q3.exec();
+
+q4.prepare("SELECT * FROM SPONSORING WHERE PACK='Pack 3' ");
+q4.exec();
+
+while (q1.next()){tot++;}
+while (q2.next()){c1++;}
+while (q3.next()){c2++;}
+while (q4.next()){c3++;}
+
+c1=c1/tot;
+c2=c2/tot;
+c3=c3/tot;
+
+
+// Assign names to the set of bars used
+        QBarSet *set0 = new QBarSet("Pack 1");
+        QBarSet *set1 = new QBarSet("Pack 2");
+        QBarSet *set2 = new QBarSet("Pack 3");
+
+        // Assign values for each bar
+        *set0 << c1;
+        *set1 << c2;
+        *set2 << c3;
+
+
+
+        // Add all sets of data to the chart as a whole
+        // 1. Bar Chart
+        QBarSeries *series = new QBarSeries();
+
+        // 2. Stacked bar chart
+        series->append(set0);
+        series->append(set1);
+        series->append(set2);
+
+
+        // Used to define the bar chart to display, title
+        // legend,
+        QChart *chart = new QChart();
+
+        // Add the chart
+        chart->addSeries(series);
+
+
+        // Adds categories to the axes
+       // QBarCategoryAxis *axis = new QBarCategoryAxis();
+
+
+
+        // 1. Bar chart
+       // chart->setAxisX(axis, series);
+
+        // Used to change the palette
+        QPalette pal = qApp->palette();
+
+        // Change the color around the chart widget and text
+        pal.setColor(QPalette::Window, QRgb(0xffffff));
+        pal.setColor(QPalette::WindowText, QRgb(0x404044));
+
+        // Apply palette changes to the application
+        qApp->setPalette(pal);
+
+
+// Used to display the chart
+chartView = new QChartView(chart,ui->label_stats);
+chartView->setRenderHint(QPainter::Antialiasing);
+chartView->setMinimumSize(400,400);
+
+chartView->show();
 }
-void Dialog_Statistiques::MakeStat()
-{
-    // Background
-    QLinearGradient gradient(0, 0, 0, 400);
-    gradient.setColorAt(0, QColor(255, 255, 255));
-    ui->plot->setBackground(QBrush(gradient));
-    QCPBars *A = new QCPBars(ui->plot->xAxis, ui->plot->yAxis);
-    A->setAntialiased(false);
-    A->setStackingGap(1);
 
-    // Couleurs
-    A->setName("Repartition des sponsors selon l'ID");
-    A->setPen(QPen(QColor(255, 0, 0).lighter(120)));
-    A->setBrush(QColor(39, 39, 39));
-
-    // Axe des abscisses
-    QVector<double> ticks;
-    QVector<QString> labels;
-    statistiques(&ticks,&labels);
-    QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
-    textTicker->addTicks(ticks, labels);
-    ui->plot->xAxis->setTicker(textTicker);
-    ui->plot->xAxis->setTickLabelRotation(60);
-    ui->plot->xAxis->setSubTicks(false);
-    ui->plot->xAxis->setLabel("ID");
-    ui->plot->xAxis->setTickLength(0, 4);
-    ui->plot->xAxis->setRange(0, 8);
-    ui->plot->xAxis->setBasePen(QPen(Qt::black));
-    ui->plot->xAxis->setTickPen(QPen(Qt::black));
-    ui->plot->xAxis->grid()->setVisible(true);
-    ui->plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
-    ui->plot->xAxis->setTickLabelColor(Qt::black);
-    ui->plot->xAxis->setLabelColor(Qt::black);
-
-    // Axe des ordonnées
-    ui->plot->yAxis->setRange(0,200);
-    ui->plot->yAxis->setPadding(5);
-    ui->plot->yAxis->setLabel("NUM_TEL");
-    ui->plot->yAxis->setBasePen(QPen(Qt::black));
-    ui->plot->yAxis->setTickPen(QPen(Qt::black));
-    ui->plot->yAxis->setSubTickPen(QPen(Qt::black));
-    ui->plot->yAxis->grid()->setSubGridVisible(true);
-    ui->plot->yAxis->setTickLabelColor(Qt::black);
-    ui->plot->yAxis->setLabelColor(Qt::black);
-    ui->plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
-    ui->plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
-
-    // Ajout des données (statistiques de la quantite)
-    QVector<double> PlaceData;
-    QSqlQuery q1("SELECT NUM_TEL FROM SPONSORING");
-    while (q1.next())
+//pie chart
+    void Dialog_Statistiques::choix_pie()
     {
-        int  nbr_fautee = q1.value(0).toInt();
-        PlaceData<< nbr_fautee;
+    QSqlQuery q1,q2,q3,q4;
+    qreal tot=0,c1=0,c2=0,c3=0;
+
+    q1.prepare("SELECT * FROM SPONSORING");
+    q1.exec();
+
+    q2.prepare("SELECT * FROM SPONSORING WHERE PACK='Pack 1' ");
+    q2.exec();
+
+    q3.prepare("SELECT * FROM SPONSORING WHERE PACK='Pack 2' ");
+    q3.exec();
+
+    q4.prepare("SELECT * FROM SPONSORING WHERE PACK='Pack 3' ");
+    q4.exec();
+
+    while (q1.next()){tot++;}
+    while (q2.next()){c1++;}
+    while (q3.next()){c2++;}
+    while (q4.next()){c3++;}
+
+    c1=c1/tot;
+    c2=c2/tot;
+    c3=c3/tot;
+
+    // Define slices and percentage of whole they take up
+    QPieSeries *series = new QPieSeries();
+    series->append("Pack 1",c1);
+    series->append("Pack 2",c2);
+    series->append("Pack 3",c3);
+
+
+
+
+    // Create the chart widget
+    QChart *chart = new QChart();
+
+    // Add data to chart with title and show legend
+    chart->addSeries(series);
+    chart->legend()->show();
+
+
+    // Used to display the chart
+    chartView = new QChartView(chart,ui->label_stats);
+    chartView->setRenderHint(QPainter::Antialiasing);
+    chartView->setMinimumSize(500,500);
+
+    chartView->show();
     }
-    A->setData(ticks, PlaceData);
-    ui->plot->legend->setVisible(true);
-    ui->plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
-    ui->plot->legend->setBrush(QColor(255, 255, 255, 100));
-    ui->plot->legend->setBorderPen(Qt::NoPen);
-    QFont legendFont = font();
-    legendFont.setPointSize(5);
-    ui->plot->legend->setFont(legendFont);
-    ui->plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-}
 
 void Dialog_Statistiques::on_pushButton_Fermer_clicked()
 {

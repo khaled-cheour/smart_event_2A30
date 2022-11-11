@@ -1,4 +1,4 @@
-QT       += core gui sql printsupport multimedia multimediawidgets
+QT       += core gui sql printsupport multimedia multimediawidgets charts printsupport widgets axcontainer
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,14 +20,12 @@ SOURCES += \
     dialog_statistiques.cpp \
     main.cpp \
     mainwindow.cpp \
-    qcustomplot.cpp \
     sponsoring.cpp
 
 HEADERS += \
     connection.h \
     dialog_statistiques.h \
     mainwindow.h \
-    qcustomplot.h \
     sponsoring.h
 
 FORMS += \

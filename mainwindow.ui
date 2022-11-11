@@ -44,8 +44,8 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>351</width>
-      <height>131</height>
+      <width>431</width>
+      <height>291</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -217,6 +217,109 @@ QLineEdit:hover {
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushStop">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>260</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 15px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+     </property>
+     <property name="text">
+      <string>Stop</string>
+     </property>
+     <property name="icon">
+      <iconset resource="sources.qrc">
+       <normaloff>:/Icons/Sources/control_stop.png</normaloff>:/Icons/Sources/control_stop.png</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_viedopack">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>140</y>
+       <width>240</width>
+       <height>138</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushPlay">
+     <property name="geometry">
+      <rect>
+       <x>270</x>
+       <y>260</y>
+       <width>51</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+     </property>
+     <property name="text">
+      <string>Play</string>
+     </property>
+     <property name="icon">
+      <iconset resource="sources.qrc">
+       <normaloff>:/Icons/Sources/control_play.png</normaloff>:/Icons/Sources/control_play.png</iconset>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RadB_Pack1">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>160</y>
+       <width>83</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pack 1</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RadB_Pack3">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>220</y>
+       <width>83</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pack 3</string>
+     </property>
+    </widget>
+    <widget class="QRadioButton" name="RadB_Pack2">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>190</y>
+       <width>83</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pack 2</string>
      </property>
     </widget>
    </widget>
@@ -557,128 +660,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
      <string>Statistiques</string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="gB_infopersonnel_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>200</y>
-      <width>351</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">border: 2px solid rgba(199, 153, 207, 200);
-background: rgba(199, 153, 207, 100); 
-border-radius: 10px;
-</string>
-    </property>
-    <property name="title">
-     <string/>
-    </property>
-    <widget class="QLabel" name="label_viedopack">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>240</width>
-       <height>138</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadB_Pack1">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>20</y>
-       <width>83</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Pack 1</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadB_Pack2">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>40</y>
-       <width>83</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Pack 2</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="RadB_Pack3">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>60</y>
-       <width>83</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Pack 3</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushPlay">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>90</y>
-       <width>51</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-background-color: rgba(199, 153, 207, 200);
-}
-QPushButton:hover {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
-}</string>
-     </property>
-     <property name="text">
-      <string>Play</string>
-     </property>
-     <property name="icon">
-      <iconset resource="sources.qrc">
-       <normaloff>:/Icons/Sources/control_play.png</normaloff>:/Icons/Sources/control_play.png</iconset>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushStop">
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>110</y>
-       <width>51</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-background-color: rgba(199, 153, 207, 200);
-border-radius: 15px;
-}
-QPushButton:hover {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
-}</string>
-     </property>
-     <property name="text">
-      <string>Stop</string>
-     </property>
-     <property name="icon">
-      <iconset resource="sources.qrc">
-       <normaloff>:/Icons/Sources/control_stop.png</normaloff>:/Icons/Sources/control_stop.png</iconset>
-     </property>
-    </widget>
-   </widget>
    <widget class="QPushButton" name="pB_TirerParNom">
     <property name="geometry">
      <rect>
@@ -826,7 +807,6 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <zorder>label_db</zorder>
    <zorder>pB_ExPDF</zorder>
    <zorder>pB_Stats</zorder>
-   <zorder>gB_infopersonnel_2</zorder>
    <zorder>pB_TirerParNom</zorder>
    <zorder>pB_TirerParID</zorder>
    <zorder>lineEdit_IDRecherche</zorder>

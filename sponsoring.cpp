@@ -12,12 +12,14 @@ sponsoring::sponsoring()
     ID=0;
     NUM_TEL=0;
     DESCRIPTION=" ";
+    PACK=" ";
 }
-sponsoring::sponsoring(int ID, int NUM_TEL, QString DESCRIPTION)
+sponsoring::sponsoring(int ID, int NUM_TEL, QString DESCRIPTION, QString PACK)
 {
     this->ID=ID;
     this->NUM_TEL=NUM_TEL;
     this->DESCRIPTION=DESCRIPTION;
+    this->PACK=PACK;
 }
 /**************************************/
 int sponsoring::getid()
@@ -32,6 +34,10 @@ QString sponsoring::getdescription()
 {
     return DESCRIPTION;
 }
+QString sponsoring::getpack()
+{
+    return PACK;
+}
 /**************************************/
 void sponsoring::setid(int ID)
 {
@@ -45,15 +51,20 @@ void sponsoring::setdescription(QString DESCRIPTION)
 {
     this->DESCRIPTION=DESCRIPTION;
 }
+void sponsoring::setpack(QString PACK)
+{
+    this->PACK=PACK;
+}
 /**************************************/
 bool sponsoring::ajouterS()
 {
     QSqlQuery query;
     QString id_string=QString::number(ID);
-         query.prepare("INSERT INTO SPONSORING(ID,NUM_TEL,DESCRIPTION)" "VALUES (:ID,:NUM_TEL,:DESCRIPTION)");
+         query.prepare("INSERT INTO SPONSORING(ID,NUM_TEL,DESCRIPTION,PACK)" "VALUES (:ID,:NUM_TEL,:DESCRIPTION,:PACK)");
          query.bindValue(":ID", ID);
          query.bindValue(":NUM_TEL", NUM_TEL);
          query.bindValue(":DESCRIPTION", DESCRIPTION);
+         query.bindValue(":PACK", PACK);
     return query.exec();
 }
 bool sponsoring::supprimerS(int ID)
@@ -66,10 +77,11 @@ bool sponsoring::supprimerS(int ID)
 bool sponsoring::modifierS()
 {
     QSqlQuery query;
-        query.prepare("UPDATE SPONSORING SET NUM_TEL=:NUM_TEL, DESCRIPTION=:DESCRIPTION WHERE ID=:ID ");
+        query.prepare("UPDATE SPONSORING SET NUM_TEL=:NUM_TEL, DESCRIPTION=:DESCRIPTION, PACK=:PACK WHERE ID=:ID ");
         query.bindValue(":ID", ID);
         query.bindValue(":NUM_TEL", NUM_TEL);
         query.bindValue(":DESCRIPTION", DESCRIPTION);
+        query.bindValue(":PACK", PACK);
     return query.exec();
 }
 /**************************************/
@@ -80,6 +92,7 @@ QSqlQueryModel* sponsoring::afficher()
           model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
           model->setHeaderData(1, Qt::Horizontal, QObject::tr("NUM_TEL"));
           model->setHeaderData(2, Qt::Horizontal, QObject::tr("DESCRIPTION"));
+          model->setHeaderData(3, Qt::Horizontal, QObject::tr("PACK"));
     return  model;
 }
 QSqlQueryModel* sponsoring ::afficher_id()
@@ -98,6 +111,7 @@ QSqlQueryModel * sponsoring::tri_id()
         model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
         model->setHeaderData(1, Qt::Horizontal, QObject::tr("NUM_TEL"));
         model->setHeaderData(2, Qt::Horizontal, QObject::tr("DESCRIPTION"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("PACK"));
     return model;
 }
 QSqlQueryModel * sponsoring::tri_numtel()
@@ -107,6 +121,7 @@ QSqlQueryModel * sponsoring::tri_numtel()
         model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
         model->setHeaderData(1, Qt::Horizontal, QObject::tr("NUM_TEL"));
         model->setHeaderData(2, Qt::Horizontal, QObject::tr("DESCRIPTION"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("PACK"));
     return model;
 }
 /**************************************/

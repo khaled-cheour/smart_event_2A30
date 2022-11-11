@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>700</height>
+    <width>500</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="pushButton_Fermer">
    <property name="geometry">
     <rect>
-     <x>1030</x>
-     <y>660</y>
+     <x>170</x>
+     <y>520</y>
      <width>161</width>
      <height>31</height>
     </rect>
@@ -41,23 +41,13 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
     <string>Fermer</string>
    </property>
   </widget>
-  <widget class="QCustomPlot" name="plot" native="true">
+  <widget class="QLabel" name="label_stats">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1201</width>
-     <height>651</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>5</y>
-     <width>1200</width>
-     <height>700</height>
+     <width>500</width>
+     <height>500</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -67,18 +57,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
     <string/>
    </property>
   </widget>
-  <zorder>label</zorder>
+  <zorder>label_stats</zorder>
   <zorder>pushButton_Fermer</zorder>
-  <zorder>plot</zorder>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header location="global">qcustomplot.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

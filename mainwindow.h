@@ -3,11 +3,26 @@
 
 #include <QMainWindow>
 #include "sponsoring.h"
+#include "dialog_statistiques.h"
 #include <QMediaPlayer>
 #include <QVideoWidget>
 #include <QFileDialog>
 #include <QProgressBar>
 #include <QSlider>
+#include <QSortFilterProxyModel>
+#include <QTextTableFormat>
+#include <QStandardItemModel>
+#include <QDialog>
+#include <QFileDialog>
+#include <QMediaPlayer>
+#include <QVideoWidget>
+#include <QDialog>
+#include <QDesktopWidget>
+#include <QSettings>
+#include <QPrinter>
+#include <QTextStream>
+#include <QFile>
+#include <QDataStream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -44,12 +59,16 @@ private slots:
 
     void on_pB_Stats_clicked();
 
+    void on_pushPlay_clicked();
+
 private:
     Ui::MainWindow *ui;
     sponsoring S;
+    Dialog_Statistiques *DS;
+
     QMediaPlayer* player;
     QVideoWidget* vw;
-    QProgressBar* bar;
-    QSlider* slider;
+
+    int selected=0;
 };
 #endif // MAINWINDOW_H

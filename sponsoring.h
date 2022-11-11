@@ -18,15 +18,18 @@ class sponsoring
 {
 public:
     sponsoring();
-    sponsoring(int,int,QString);
+    sponsoring(int,int,QString,QString);
 
     int getid();
     int getnumtel();
     QString getdescription();
+    QString getpack();
 
     void setid(int);
     void setnumtel(int);
     void setdescription(QString);
+    void setpack(QString);
+
 
     bool ajouterS();
     bool modifierS();
@@ -48,6 +51,7 @@ private:
     int ID;
     int NUM_TEL;
     QString DESCRIPTION;
+    QString PACK;
 };
 
 #endif // SPONSORING_H
