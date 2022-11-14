@@ -57,40 +57,6 @@ border-radius: 10px;
     <property name="title">
      <string/>
     </property>
-    <widget class="QLineEdit" name="lineEdit_Description">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>70</y>
-       <width>201</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLineEdit {
-	background-color: rgba(134, 47, 147, 50);
-		border: 2px solid rgba(134, 47, 147, 200);
-			border-radius: 10px;
-}
-QLineEdit:hover {
-	background-color: rgba(134, 47, 147, 50);
-		border: 2px solid rgba(47, 127, 147, 200);
-			border-radius: 10px;
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <property name="cursorMoveStyle">
-      <enum>Qt::VisualMoveStyle</enum>
-     </property>
-     <property name="clearButtonEnabled">
-      <bool>false</bool>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="lineEdit_ID">
      <property name="geometry">
       <rect>
@@ -222,8 +188,8 @@ QLineEdit:hover {
     <widget class="QPushButton" name="pushStop">
      <property name="geometry">
       <rect>
-       <x>360</x>
-       <y>260</y>
+       <x>370</x>
+       <y>130</y>
        <width>51</width>
        <height>16</height>
       </rect>
@@ -231,7 +197,7 @@ QLineEdit:hover {
      <property name="styleSheet">
       <string notr="true">QPushButton {
 background-color: rgba(199, 153, 207, 200);
-border-radius: 15px;
+border-radius:8px;
 }
 QPushButton:hover {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
@@ -245,24 +211,11 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
        <normaloff>:/Icons/Sources/control_stop.png</normaloff>:/Icons/Sources/control_stop.png</iconset>
      </property>
     </widget>
-    <widget class="QLabel" name="label_viedopack">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>140</y>
-       <width>240</width>
-       <height>138</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushPlay">
      <property name="geometry">
       <rect>
-       <x>270</x>
-       <y>260</y>
+       <x>310</x>
+       <y>130</y>
        <width>51</width>
        <height>16</height>
       </rect>
@@ -270,6 +223,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
      <property name="styleSheet">
       <string notr="true">QPushButton {
 background-color: rgba(199, 153, 207, 200);
+border-radius:8px;
 }
 QPushButton:hover {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
@@ -286,9 +240,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
     <widget class="QRadioButton" name="RadB_Pack1">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>160</y>
-       <width>83</width>
+       <x>20</x>
+       <y>130</y>
+       <width>61</width>
        <height>18</height>
       </rect>
      </property>
@@ -299,9 +253,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
     <widget class="QRadioButton" name="RadB_Pack3">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>220</y>
-       <width>83</width>
+       <x>160</x>
+       <y>130</y>
+       <width>61</width>
        <height>18</height>
       </rect>
      </property>
@@ -312,14 +266,46 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
     <widget class="QRadioButton" name="RadB_Pack2">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>190</y>
-       <width>83</width>
+       <x>90</x>
+       <y>130</y>
+       <width>61</width>
        <height>18</height>
       </rect>
      </property>
      <property name="text">
       <string>Pack 2</string>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="lineEdit_Description">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>70</y>
+       <width>201</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTextEdit {
+	background-color: rgba(134, 47, 147, 50);
+		border: 2px solid rgba(134, 47, 147, 200);
+			border-radius: 10px;
+}
+QTextEdit:hover {
+	background-color: rgba(134, 47, 147, 50);
+		border: 2px solid rgba(47, 127, 147, 200);
+			border-radius: 10px;
+}</string>
+     </property>
+    </widget>
+    <widget class="QMediaPlayer" name="VideoInterface" native="true">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>170</y>
+       <width>221</width>
+       <height>111</height>
+      </rect>
      </property>
     </widget>
    </widget>
@@ -439,7 +425,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <widget class="QLabel" name="label_Info">
     <property name="geometry">
      <rect>
-      <x>680</x>
+      <x>520</x>
       <y>330</y>
       <width>291</width>
       <height>31</height>
@@ -608,7 +594,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
     <property name="geometry">
      <rect>
       <x>1080</x>
-      <y>310</y>
+      <y>340</y>
       <width>101</width>
       <height>21</height>
      </rect>
@@ -635,7 +621,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <widget class="QPushButton" name="pB_Stats">
     <property name="geometry">
      <rect>
-      <x>1080</x>
+      <x>970</x>
       <y>340</y>
       <width>101</width>
       <height>21</height>
@@ -792,6 +778,103 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
      <string>Num Tel</string>
     </property>
    </widget>
+   <widget class="QGroupBox" name="gB_infopersonnel_2">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>90</y>
+      <width>261</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid rgba(199, 153, 207, 200);
+background: rgba(199, 153, 207, 100); 
+border-radius: 10px;
+</string>
+    </property>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QLabel" name="label_SMS">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>10</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Montserrat SemiBold</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgba(134, 47, 147, 50);
+	border: 2px solid rgb(134, 47, 147);
+		border-radius: 10px;
+</string>
+     </property>
+     <property name="text">
+      <string>SMS Message</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QTextEdit" name="TextEdit_SMSBody">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>241</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QTextEdit {
+	background-color: rgba(134, 47, 147, 50);
+		border: 2px solid rgba(134, 47, 147, 200);
+			border-radius: 10px;
+}
+QTextEdit:hover {
+	background-color: rgba(134, 47, 147, 50);
+		border: 2px solid rgba(47, 127, 147, 200);
+			border-radius: 10px;
+}</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pB_EnvoyerSMS">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>180</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Montserrat Medium</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 10px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+     </property>
+     <property name="text">
+      <string>Envoyer</string>
+     </property>
+    </widget>
+   </widget>
    <zorder>label_BGSponsoring</zorder>
    <zorder>comboBox_ID</zorder>
    <zorder>gB_infopersonnel</zorder>
@@ -813,8 +896,17 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
    <zorder>pB_Recherche</zorder>
    <zorder>rB_ID</zorder>
    <zorder>rB_NumTel</zorder>
+   <zorder>gB_infopersonnel_2</zorder>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QMediaPlayer</class>
+   <extends>QWidget</extends>
+   <header>qmediaplayer.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="sources.qrc"/>
  </resources>

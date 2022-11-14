@@ -6,6 +6,16 @@
 #include <QDateTime>
 #include <QDate>
 #include <QFile>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
+#include <QHttpMultiPart>
+#include <QUrl>
+#include <QUrlQuery>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QTimer>
+#include <QEventLoop>
 
 sponsoring::sponsoring()
 {
@@ -175,18 +185,4 @@ void sponsoring::chercheID(QTableView *table, int x)
    table->setModel(model);
    table->show();
 }
-void sponsoring::chercheNumTel(QTableView *table, int x)
-{
-   QSqlQueryModel *model=new QSqlQueryModel();
-   QSqlQuery *query =new QSqlQuery;
-   query->prepare("select * from SPONSORING where regexp_like(NUM_TEL,:NUM_TEL);");
-   query->bindValue(":NUM_TEL",x);
-   if(x==0)
-   {
-       query->prepare("select * from SPONSORING;");
-   }
-   query->exec();
-   model->setQuery(*query);
-   table->setModel(model);
-   table->show();
-}
+

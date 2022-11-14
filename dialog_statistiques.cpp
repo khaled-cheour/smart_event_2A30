@@ -21,7 +21,7 @@ void Dialog_Statistiques::choix_bar()
 QSqlQuery q1,q2,q3,q4;
 qreal tot=0,c1=0,c2=0,c3=0;
 
-q1.prepare("SELECT * FROM CRUD");
+q1.prepare("SELECT * FROM SPONSORING");
 q1.exec();
 
 q2.prepare("SELECT * FROM SPONSORING WHERE PACK='Pack 1' ");

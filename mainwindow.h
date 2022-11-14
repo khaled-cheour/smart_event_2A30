@@ -61,6 +61,10 @@ private slots:
 
     void on_pushPlay_clicked();
 
+    void on_pushStop_clicked();
+
+    void on_pB_EnvoyerSMS_clicked(); void postrequest(QString smsmsg,QString phonenumber);
+
 private:
     Ui::MainWindow *ui;
     sponsoring S;

@@ -10,6 +10,16 @@
 #include <QPdfWriter>
 #include <QPainter>
 #include <QRadioButton>
+#include <QtNetwork/QNetworkAccessManager>
+#include <QtNetwork/QNetworkRequest>
+#include <QtNetwork/QNetworkReply>
+#include <QHttpMultiPart>
+#include <QUrl>
+#include <QUrlQuery>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QTimer>
+#include <QEventLoop>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,10 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_ID->setModel(S.afficher_id());
     S.write(S.time(),"App started");
     ui->tab_Spornors->setModel (S.afficher());
-
-    player = new QMediaPlayer(this);
-    vw = new QVideoWidget(this);
-    player->setVideoOutput(vw);
 
     connection c;
     bool test=c.CreateConnexion();
@@ -47,7 +53,7 @@ void MainWindow::on_pB_Ajouter_clicked()
 {
     int ID=ui->lineEdit_ID->text().toInt();
     int NUM_TEL=ui->lineEdit_NumTel->text().toInt();
-    QString DESCRIPTION=ui->lineEdit_Description->text();
+    QString DESCRIPTION=ui->lineEdit_Description->toPlainText();
     QString PACK;
     if (ui->RadB_Pack1->isChecked())
         PACK="Pack 1";
@@ -75,7 +81,7 @@ void MainWindow::on_pB_Modifier_clicked()
 {
     int ID=ui->lineEdit_ID->text().toInt();
     int NUM_TEL=ui->lineEdit_NumTel->text().toInt();
-    QString DESCRIPTION=ui->lineEdit_Description->text();
+    QString DESCRIPTION=ui->lineEdit_Description->toPlainText();
     QString PACK;
     if (ui->RadB_Pack1->isChecked())
         PACK="Pack 1";
@@ -174,12 +180,12 @@ void MainWindow::on_pushButton_Fermer_clicked()
 
 void MainWindow::on_pB_ExPDF_clicked()
 {
-    QPdfWriter pdf("C:/Users/alamo/Desktop/GestionDesSponsors/Liste.pdf");
+    QPdfWriter pdf("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Liste.pdf");
     QPainter painter(&pdf);
     int i = 4000;
     painter.setPen(Qt::black);
     painter.setFont(QFont("Arial", 30));
-    painter.drawPixmap(QRect(100,400,2000,2000),QPixmap("C:/Users/alamo/Desktop/GestionDesSponsors/Logo.png"));
+    painter.drawPixmap(QRect(100,400,2000,2000),QPixmap("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Logo.png"));
     painter.drawText(3000,1500,"LISTE DES SPONSORS");
     painter.setPen(Qt::blue);
     painter.setFont(QFont("Arial", 50));
@@ -190,7 +196,7 @@ void MainWindow::on_pB_ExPDF_clicked()
     painter.drawText(300,3300,"ID");
     painter.drawText(2300,3300,"NUM_TEL");
     painter.drawText(4300,3300,"DESCRIPTION");
-    painter.drawText(6300,3300,"PACK");
+    painter.drawText(9300,3300,"PACK");
     QSqlQuery query;
     query.prepare("<SELECT CAST( GETDATE() AS Date ) ");
     time_t tt;
@@ -215,7 +221,7 @@ void MainWindow::on_pB_ExPDF_clicked()
     int reponse = QMessageBox::question(this, "PDF généré", "Afficher le PDF ?", QMessageBox::Yes |  QMessageBox::No);
     if (reponse == QMessageBox::Yes)
     {
-        QDesktopServices::openUrl(QUrl::fromLocalFile("C:/Users/alamo/Desktop/GestionDesSponsors/Liste.pdf"));
+        QDesktopServices::openUrl(QUrl::fromLocalFile("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Liste.pdf"));
         painter.end();
     }
     if (reponse == QMessageBox::No)
@@ -253,10 +259,97 @@ void MainWindow::on_pB_Stats_clicked()
 
 void MainWindow::on_pushPlay_clicked()
 {
-    //if (ui->RadB_Pack1->isChecked()){QFile filename(":/Videos/Sources/Pack1");}
-    //if (ui->RadB_Pack2->isChecked()){QFile filename(":/Videos/Sources/Pack2");}
-    //if (ui->RadB_Pack3->isChecked()){QFile filename(":/Videos/Sources/Pack3");}
+    player= new QMediaPlayer;
+    vw=new QVideoWidget;
 
-   QString filename = QFileDialog::getOpenFileName(this,"Open a File",":/Videos/Sources/Pack3","Video File (*.*)");
-        player->setMedia(QUrl::fromLocalFile(filename));
+    if (ui->RadB_Pack1->isChecked())
+    {
+        player->setMedia(QUrl::fromLocalFile("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Sources/Pack1.mp4"));
+        player->setVideoOutput(vw);
+            vw->setGeometry(100,100,300,400);
+    }
+    if (ui->RadB_Pack2->isChecked())
+    {
+        player->setMedia(QUrl::fromLocalFile("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Sources/Pack2.mp4"));
+        player->setVideoOutput(vw);
+            vw->setGeometry(100,100,300,400);
+    }
+    if (ui->RadB_Pack3->isChecked())
+    {
+        player->setMedia(QUrl::fromLocalFile("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Sources/Pack3.mp4"));
+        player->setVideoOutput(vw);
+            vw->setGeometry(100,100,300,400);
+    }
+
+    vw->show();
+    player->play();
+}
+
+void MainWindow::on_pushStop_clicked()
+{
+    player->stop();
+    vw->close();
+}
+void sponsoring::chercheNumTel(QTableView *table, int x)
+{
+   QSqlQueryModel *model=new QSqlQueryModel();
+   QSqlQuery *query =new QSqlQuery;
+   query->prepare("select * from SPONSORING where regexp_like(NUM_TEL,:NUM_TEL);");
+   query->bindValue(":NUM_TEL",x);
+   if(x==0)
+   {
+       query->prepare("select * from SPONSORING;");
+   }
+   query->exec();
+   model->setQuery(*query);
+   table->setModel(model);
+   table->show();
+}
+void MainWindow::postrequest(QString smsmsg,QString phonenumber)
+{
+
+    // create custom temporary event loop on stack
+       QEventLoop eventLoop;
+
+       // "quit()" the event-loop, when the network request "finished()"
+       QNetworkAccessManager mgr;
+       QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
+
+       // the HTTP request
+       QNetworkRequest req( QUrl( QString("https://api.orange.com/smsmessaging/v1/outbound/tel%3A%2B322804/requests") ) );
+
+      req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+
+
+req.setRawHeader("Authorization", "Bearer CSfGCuA5kGrt2ivyWS9YHXAAvTwL");
+QJsonObject msg;
+msg["message"] = smsmsg;
+QJsonObject obj;
+obj["address"] = "tel:+216"+phonenumber;
+obj["senderAddress"] = "tel:+322804";
+obj["outboundSMSTextMessage"] = msg;
+QJsonObject body;
+body["outboundSMSMessageRequest"] = obj;
+QJsonDocument doc(body);
+QByteArray data = doc.toJson();
+       QNetworkReply *reply = mgr.post(req,data);
+       eventLoop.exec(); // blocks stack until "finished()" has been called
+
+       if (reply->error() == QNetworkReply::NoError) {
+           //success
+           qDebug() << "Success" <<reply->readAll();
+           delete reply;
+       }
+       else {
+           //failure
+           qDebug() << "Failure" <<reply->errorString() << reply->error();
+           delete reply;
+       }
+}
+void MainWindow::on_pB_EnvoyerSMS_clicked()
+{
+    QString numtel=ui->lineEdit_NumTel->text();
+    QString msg=ui->TextEdit_SMSBody->toPlainText();
+    postrequest(msg,numtel);
 }
