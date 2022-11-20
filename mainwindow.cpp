@@ -31,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->comboBox_ID->setModel(S.afficher_id());
     S.write(S.time(),"App started");
     ui->tab_Spornors->setModel (S.afficher());
-
     connection c;
     bool test=c.CreateConnexion();
     if(test)
@@ -230,24 +229,6 @@ void MainWindow::on_pB_ExPDF_clicked()
     }
 }
 
-void MainWindow::on_pB_Recherche_clicked()
-{
-    sponsoring S;
-    QString text;
-
-    if (ui->rB_ID->isChecked()==true)
-    {
-        S.clearTable(ui->tab_Spornors);
-        int ID=ui->lineEdit_IDRecherche->text().toInt();
-        S.chercheID(ui->tab_Spornors,ID);
-    }
-    if (ui->rB_NumTel->isChecked()==true)
-    {
-        S.clearTable(ui->tab_Spornors);
-        int Numtel=ui->lineEdit_IDRecherche->text().toInt();
-        S.chercheNumTel(ui->tab_Spornors,Numtel);
-    }
-}
 void MainWindow::on_pB_Stats_clicked()
 {
     DS = new Dialog_Statistiques();
@@ -259,26 +240,24 @@ void MainWindow::on_pB_Stats_clicked()
 
 void MainWindow::on_pushPlay_clicked()
 {
-    player= new QMediaPlayer;
-    vw=new QVideoWidget;
+    player = new QMediaPlayer(this);
+    vw = new QVideoWidget(this);
+    player->setVideoOutput(vw);
 
     if (ui->RadB_Pack1->isChecked())
     {
         player->setMedia(QUrl::fromLocalFile("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Sources/Pack1.mp4"));
-        player->setVideoOutput(vw);
-            vw->setGeometry(100,100,300,400);
+        player->setVideoOutput(ui->VideoInterface);
     }
     if (ui->RadB_Pack2->isChecked())
     {
         player->setMedia(QUrl::fromLocalFile("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Sources/Pack2.mp4"));
-        player->setVideoOutput(vw);
-            vw->setGeometry(100,100,300,400);
+        player->setVideoOutput(ui->VideoInterface);
     }
     if (ui->RadB_Pack3->isChecked())
     {
         player->setMedia(QUrl::fromLocalFile("D:/Studies/2A/Projet Desktop Application/Taches Projet Qt/GestionDesSponsors/Sources/Pack3.mp4"));
-        player->setVideoOutput(vw);
-            vw->setGeometry(100,100,300,400);
+        player->setVideoOutput(ui->VideoInterface);
     }
 
     vw->show();
@@ -289,21 +268,6 @@ void MainWindow::on_pushStop_clicked()
 {
     player->stop();
     vw->close();
-}
-void sponsoring::chercheNumTel(QTableView *table, int x)
-{
-   QSqlQueryModel *model=new QSqlQueryModel();
-   QSqlQuery *query =new QSqlQuery;
-   query->prepare("select * from SPONSORING where regexp_like(NUM_TEL,:NUM_TEL);");
-   query->bindValue(":NUM_TEL",x);
-   if(x==0)
-   {
-       query->prepare("select * from SPONSORING;");
-   }
-   query->exec();
-   model->setQuery(*query);
-   table->setModel(model);
-   table->show();
 }
 void MainWindow::postrequest(QString smsmsg,QString phonenumber)
 {
@@ -322,7 +286,7 @@ void MainWindow::postrequest(QString smsmsg,QString phonenumber)
 
 
 
-req.setRawHeader("Authorization", "Bearer CSfGCuA5kGrt2ivyWS9YHXAAvTwL");
+req.setRawHeader("Authorization", "Bearer hqRfnJmzVeHwrGeV3Ar8iSvQvrbl");
 QJsonObject msg;
 msg["message"] = smsmsg;
 QJsonObject obj;
@@ -352,4 +316,18 @@ void MainWindow::on_pB_EnvoyerSMS_clicked()
     QString numtel=ui->lineEdit_NumTel->text();
     QString msg=ui->TextEdit_SMSBody->toPlainText();
     postrequest(msg,numtel);
+}
+
+void MainWindow::on_lineEdit_IDRecherche_textChanged(const QString &arg1)
+{
+    if (ui->rB_ID->isChecked()==true)
+    {
+        S.clearTable(ui->tab_Spornors);
+        S.chercheID(ui->tab_Spornors,arg1);
+    }
+    if (ui->rB_NumTel->isChecked()==true)
+    {
+        S.clearTable(ui->tab_Spornors);
+        S.chercheNumTel(ui->tab_Spornors,arg1);
+    }
 }

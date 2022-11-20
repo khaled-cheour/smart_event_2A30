@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
 #include "sponsoring.h"
 #include "dialog_statistiques.h"
@@ -55,8 +54,6 @@ private slots:
 
     void on_pB_ExPDF_clicked();
 
-    void on_pB_Recherche_clicked();
-
     void on_pB_Stats_clicked();
 
     void on_pushPlay_clicked();
@@ -64,6 +61,8 @@ private slots:
     void on_pushStop_clicked();
 
     void on_pB_EnvoyerSMS_clicked(); void postrequest(QString smsmsg,QString phonenumber);
+
+    void on_lineEdit_IDRecherche_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;

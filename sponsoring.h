@@ -44,8 +44,8 @@ public:
     QString time();
     void clearh();
     void clearTable(QTableView * table);
-    void chercheID(QTableView *table, int x);
-    void chercheNumTel(QTableView *table, int x);
+    void chercheID(QTableView *table, QString x);
+    void chercheNumTel(QTableView *table, QString x);
 
 private:
     int ID;
