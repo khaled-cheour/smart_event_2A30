@@ -16,6 +16,7 @@ int main(int argc, char *argv[])
                     QObject::tr("Connection Successful."), QMessageBox::Close);
 
 }
+
     else
         QMessageBox::critical(nullptr, QObject::tr("DataBase in not open"),
                     QObject::tr("Connection Failed."), QMessageBox::Close);

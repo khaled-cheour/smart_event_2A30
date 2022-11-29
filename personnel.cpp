@@ -31,7 +31,6 @@ personnel::personnel(int CIN, QString NOM, QString PRENOM ,QString ADRESSE ,QStr
     this->CIN_DIRIGEUR=0;
 }
 /**************************************/
-
 int personnel::getcin()
 {
     return CIN;
