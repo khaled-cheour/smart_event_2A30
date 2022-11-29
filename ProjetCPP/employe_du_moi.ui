@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>employe_du_moi</class>
+ <widget class="QDialog" name="employe_du_moi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1052</width>
+    <height>702</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label_BGPersonnel">
+   <property name="geometry">
+    <rect>
+     <x>-90</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>700</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/new/Image/Images/BGSponsoring.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QLabel" name="labe_TitlePerso">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>10</y>
+     <width>331</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>LEMON MILK</family>
+     <pointsize>13</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgba(134, 47, 147,50);
+border-bottom-left-radius: 10px;
+border-bottom-right-radius: 10px;</string>
+   </property>
+   <property name="text">
+    <string>employe de mois</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_InsererPhotoPerso_2">
+   <property name="geometry">
+    <rect>
+     <x>900</x>
+     <y>670</y>
+     <width>151</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Montserrat Medium</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 10px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+   </property>
+   <property name="text">
+    <string>exit</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="tableView_Personnel2">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>140</y>
+     <width>701</width>
+     <height>321</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgba(199, 153, 207, 100);</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser_Personnel2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>140</y>
+     <width>341</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color:rgba(199, 153, 207, 100);</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
