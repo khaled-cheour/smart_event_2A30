@@ -18,6 +18,7 @@ Dialog_chat::~Dialog_chat()
 {
     delete ui;
 }
+
 void Dialog_chat::choix_chat()
 {
     personnel P;
@@ -27,7 +28,5 @@ void Dialog_chat::choix_chat()
 
 void Dialog_chat::on_pushButton_envoyer_clicked()
 {
-
-
 
 }
