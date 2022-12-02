@@ -53,6 +53,8 @@ private slots:
 
     void on_pB_pdf_clicked();
 
+    void on_pushButton_clicked();
+
 private:
     Ui::Dialog_perso *ui;
     Dialog_stats *DS;

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "dialog_perso.h"
 #include "connexion.h"
+#include "arduino.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

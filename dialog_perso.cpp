@@ -10,17 +10,29 @@
 #include <QPdfWriter>
 #include <QFileDialog>
 #include <QPushButton>
+#include "arduino.h"
 
 Dialog_perso::Dialog_perso(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog_perso)
 {
+    arduino a;
     ui->setupUi(this);
     ui->lineEdit_CIN->setValidator( new QIntValidator(0, 99999999, this));
     ui->comboBox_CIN->setModel(P.afficher_cin());
     ui->tableView_Personnel->setModel (P.afficher());
     P.write(P.time(),"App started");
     ui->textBrowser_Perso->setText(P.read());
+
+    int ret=a.connect_arduino();
+    switch(ret){
+    case(0):qDebug()<<"arduino is available and connected to :"<<a.getarduino_port_name();
+    break;
+    case(1):qDebug()<<"arduino is available but not connected to :"<<a.getarduino_port_name();
+    break;
+    case(-1):qDebug()<<"arduino is not available";
+    }
+    QObject::connect(a.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));
 }
 
 Dialog_perso::~Dialog_perso()
@@ -341,3 +353,9 @@ void Dialog_perso::on_pushButton_chatbox_clicked()
 
 
 
+
+void Dialog_perso::on_pushButton_clicked()
+{
+    arduino a;
+    a.write_to_arduino("1");
+}
