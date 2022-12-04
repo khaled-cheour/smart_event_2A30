@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog_map</class>
+ <widget class="QDialog" name="Dialog_map">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pushButton_Fermer">
+   <property name="geometry">
+    <rect>
+     <x>520</x>
+     <y>660</y>
+     <width>161</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Montserrat SemiBold</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 15px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(189, 96, 96, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+   </property>
+   <property name="text">
+    <string>Fermer</string>
+   </property>
+  </widget>
+  <widget class="WebAxWidget" name="WebBrowser">
+   <property name="control" stdset="0">
+    <string>{8856F961-340A-11D0-A96B-00C04FD705A2}</string>
+   </property>
+   <property name="focusPolicy" stdset="0">
+    <enum>Qt::StrongFocus</enum>
+   </property>
+   <property name="geometry" stdset="0">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>1181</width>
+     <height>631</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QAxWidget</class>
+   <extends>QWidget</extends>
+   <header>qaxwidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>WebAxWidget</class>
+   <extends>QAxWidget</extends>
+   <header>webaxwidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
