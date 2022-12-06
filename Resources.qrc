@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/Images">
+        <file>Resources/GestionsBG.png</file>
+        <file>Resources/LoginBG.png</file>
+        <file>Resources/MainBG.png</file>
+    </qresource>
+    <qresource prefix="/Icons">
+        <file>Resources/control_pause.png</file>
+        <file>Resources/control_play.png</file>
+        <file>Resources/control_stop.png</file>
+    </qresource>
+    <qresource prefix="/Videos">
+        <file>Resources/Pack1.mp4</file>
+        <file>Resources/Pack2.mp4</file>
+        <file>Resources/Pack3.mp4</file>
+    </qresource>
+</RCC>
