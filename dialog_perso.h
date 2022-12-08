@@ -24,6 +24,7 @@ private slots:
     void on_pB_AjouterP_clicked();
 
     void on_pB_SupprimerP_clicked();
+    void update_label();
 
     void on_pB_ModifierP_clicked();
 

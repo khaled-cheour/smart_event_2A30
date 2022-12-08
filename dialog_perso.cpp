@@ -359,3 +359,7 @@ void Dialog_perso::on_pushButton_clicked()
     arduino a;
     a.write_to_arduino("1");
 }
+void Dialog_perso::update_label()
+{
+
+}
