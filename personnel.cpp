@@ -22,7 +22,7 @@ personnel::personnel(){
     RFID=" ";
     PHOTO=" ";
 }
-personnel::personnel(int CIN,QString NOM,QString PRENOM,QString GENDER,QDate DATE_DE_NAISSANCE,QString EMAIL,QString ADRESSE,QString GESTION,int ABSANCE,QString PASSWORD,QString RFID,QByteArray PHOTO){
+personnel::personnel(int CIN,QString NOM,QString PRENOM,QString GENDER,QDate DATE_DE_NAISSANCE,QString EMAIL,QString ADRESSE,QString GESTION,int ABSANCE,QString PASSWORD,QString RFID,QString PHOTO){
     this->CIN=CIN;
     this->NOM=NOM;
     this->PRENOM=PRENOM;
@@ -47,7 +47,7 @@ QString personnel::getadresse() { return ADRESSE; }
 QString personnel::getgestion() { return GESTION; }
 int personnel::getabsance() {  return ABSANCE; }
 QString personnel::getrfid() { return RFID; }
-QByteArray personnel::getphoto() { return PHOTO; }
+QString personnel::getphoto() { return PHOTO; }
 /**************************************/
 void personnel::setcin(int CIN) { this->CIN=CIN; }
 void personnel::setnom(QString NOM) { this->NOM=NOM; }
@@ -59,7 +59,7 @@ void personnel::setadresse(QString ADRESSE) { this->ADRESSE=ADRESSE; }
 void personnel::setgestion(QString GESTION) { this->GESTION=GESTION; }
 void personnel::setabsance(int ABSANCE) { this->ABSANCE=ABSANCE; }
 void personnel::setrfid(QString RFID) { this->RFID=RFID; }
-void personnel::setphoto(QByteArray PHOTO) { this->PHOTO=PHOTO; }
+void personnel::setphoto(QString PHOTO) { this->PHOTO=PHOTO; }
 /**************************************/
 bool personnel::ajouter()
 {
@@ -90,7 +90,7 @@ bool personnel::supprimer(int CIN)
 QSqlQueryModel* personnel::afficher()
 {
     QSqlQueryModel* model=new QSqlQueryModel();
-    model->setQuery("SELECT CIN,NOM,PRENOM,GENDER,DATE_DE_NAISSANCE,EMAIL,ADRESSE,GESTION,ABSANCE,RFID FROM PERSONNEL");
+    model->setQuery("SELECT CIN,NOM,PRENOM,GENDER,DATE_DE_NAISSANCE,EMAIL,ADRESSE,GESTION,ABSANCE,RFID,PHOTO FROM PERSONNEL");
     model->setHeaderData(0, Qt::Horizontal, QObject::tr("CIN"));
     model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
@@ -101,6 +101,7 @@ QSqlQueryModel* personnel::afficher()
     model->setHeaderData(7, Qt::Horizontal, QObject::tr("GESTION"));
     model->setHeaderData(8, Qt::Horizontal, QObject::tr("ABSANCE"));
     model->setHeaderData(9, Qt::Horizontal, QObject::tr("RFID"));
+    model->setHeaderData(10, Qt::Horizontal, QObject::tr("PHOTO"));
     return  model;
 }
 bool personnel::modifierP()
@@ -257,6 +258,5 @@ QSqlQueryModel* personnel::triMDM()
     model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
     model->setHeaderData(3, Qt::Horizontal, QObject::tr("GESTION"));
     model->setHeaderData(4, Qt::Horizontal, QObject::tr("ABSANCE"));
-
     return model;
 }

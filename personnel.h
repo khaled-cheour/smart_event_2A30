@@ -32,7 +32,7 @@ class personnel
 {
 public:
     personnel();
-    personnel(int,QString,QString,QString,QDate,QString,QString,QString,int,QString,QString,QByteArray);
+    personnel(int,QString,QString,QString,QDate,QString,QString,QString,int,QString,QString,QString);
 
     int getcin();
     QString getnom();
@@ -44,7 +44,7 @@ public:
     QString getgestion();
     int getabsance();
     QString getrfid();
-    QByteArray getphoto();
+    QString getphoto();
 
     void setcin(int);
     void setnom(QString);
@@ -56,7 +56,7 @@ public:
     void setgestion(QString);
     void setabsance(int);
     void setrfid(QString);
-    void setphoto(QByteArray);
+    void setphoto(QString);
 
     bool ajouter();
     bool modifierP();
@@ -90,7 +90,7 @@ private:
     QString GESTION;
     int ABSANCE;
     QString RFID;
-    QByteArray PHOTO;
+    QString PHOTO;
 };
 
 #endif // PERSONNEL_H

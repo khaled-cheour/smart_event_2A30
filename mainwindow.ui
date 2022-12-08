@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QLabel" name="Login_Background">
@@ -96,7 +96,7 @@ border-radius: 10px;
 }</string>
       </property>
       <property name="text">
-       <string>14519011</string>
+       <string>99999999</string>
       </property>
       <property name="frame">
        <bool>false</bool>
@@ -126,7 +126,7 @@ border-radius: 10px;
 }</string>
       </property>
       <property name="text">
-       <string>aspirine</string>
+       <string>topadmin</string>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
@@ -235,6 +235,32 @@ border-radius: 10px;
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <widget class="QCheckBox" name="Login_check_PassShowHide">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>390</y>
+        <width>41</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QCheckBox::indicator {
+ width: 40px;
+ height: 20px;
+}
+QCheckBox::indicator:checked{
+	image: url(:/Icons/Resources/ShowPassIcon.png);
+}
+QCheckBox::indicator:unchecked{
+	image: url(:/Icons/Resources/HidePassIcon.png);
+}
+background-color: rgb(255, 255, 255);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="Menu">
      <widget class="QPushButton" name="Main_push_Locaux">
@@ -260,7 +286,9 @@ border-radius: 30px;
 QPushButton:hover {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
 }
-
+QPushButton:diabled{
+background-color: rgba(199, 153, 207, 100);
+}
 </string>
       </property>
       <property name="text">
@@ -289,6 +317,9 @@ border-radius: 30px;
 }
 QPushButton:hover {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
+}
+QPushButton:diabled{
+background-color: rgba(199, 153, 207, 100);
 }
 
 </string>
@@ -320,7 +351,9 @@ border-radius: 30px;
 QPushButton:hover {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
 }
-
+QPushButton:diabled{
+background-color: rgba(199, 153, 207, 100);
+}
 </string>
       </property>
       <property name="text">
@@ -330,8 +363,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
      <widget class="QPushButton" name="Main_push_Quitter">
       <property name="geometry">
        <rect>
-        <x>520</x>
-        <y>630</y>
+        <x>610</x>
+        <y>640</y>
         <width>161</width>
         <height>41</height>
        </rect>
@@ -380,7 +413,9 @@ border-radius: 30px;
 QPushButton:hover {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
 }
-
+QPushButton:diabled{
+background-color: rgba(199, 153, 207, 100);
+}
 </string>
       </property>
       <property name="text">
@@ -410,7 +445,9 @@ border-radius: 30px;
 QPushButton:hover {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(153, 96, 189, 200), stop:1 rgba(199, 153, 207, 200));
 }
-
+QPushButton:diabled{
+background-color: rgba(199, 153, 207, 100);
+}
 </string>
       </property>
       <property name="text">
@@ -433,6 +470,57 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
        <string/>
       </property>
      </widget>
+     <widget class="QLabel" name="Main_label_LoggedAs">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>30</y>
+        <width>361</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="Main_push_Return">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>640</y>
+        <width>161</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>LEMON MILK</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 20px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(189, 96, 96, 200), stop:1 rgba(199, 153, 207, 200));
+}
+
+</string>
+      </property>
+      <property name="text">
+       <string>Return</string>
+      </property>
+     </widget>
      <zorder>Main_Background</zorder>
      <zorder>Main_push_Fournisseur</zorder>
      <zorder>Main_push_Sponsoring</zorder>
@@ -440,6 +528,8 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
      <zorder>Main_push_Locaux</zorder>
      <zorder>Main_push_Quitter</zorder>
      <zorder>Main_push_Personnel</zorder>
+     <zorder>Main_label_LoggedAs</zorder>
+     <zorder>Main_push_Return</zorder>
     </widget>
     <widget class="QWidget" name="Gestion_Personnel">
      <widget class="QLabel" name="Perso_Title">
@@ -555,7 +645,7 @@ QTabBar::tab:left:last, QTabBar::tab:right:last,QTabBar::tab:left:only-one, QTab
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="Personnels">
        <attribute name="title">
@@ -612,7 +702,7 @@ QGroupBox::title  {
          <property name="geometry">
           <rect>
            <x>340</x>
-           <y>250</y>
+           <y>300</y>
            <width>121</width>
            <height>21</height>
           </rect>
@@ -640,7 +730,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
          <property name="geometry">
           <rect>
            <x>300</x>
-           <y>40</y>
+           <y>90</y>
            <width>200</width>
            <height>200</height>
           </rect>
@@ -1148,6 +1238,34 @@ border-radius: 10px;
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="QLabel" name="Perso_Label_Photoname">
+         <property name="geometry">
+          <rect>
+           <x>310</x>
+           <y>50</y>
+           <width>181</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Montserrat Medium</family>
+           <pointsize>11</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgba(134, 47, 147, 25);
+	border: 2px solid rgba(134, 47, 147, 100);
+		border-radius: 10px;
+</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
         </widget>
        </widget>
        <widget class="QComboBox" name="Perso_combo_CIN">
@@ -1841,14 +1959,42 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
        <widget class="QTableView" name="Perso_table_MDM">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>310</x>
           <y>110</y>
-          <width>1171</width>
+          <width>531</width>
           <height>221</height>
          </rect>
         </property>
         <property name="styleSheet">
          <string notr="true">background-color:rgba(199, 153, 207, 100);</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Perso_push_EDM">
+        <property name="geometry">
+         <rect>
+          <x>430</x>
+          <y>350</y>
+          <width>291</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Montserrat Medium</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 10px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+        </property>
+        <property name="text">
+         <string>Employees du mois</string>
         </property>
        </widget>
       </widget>
@@ -1989,7 +2135,7 @@ QTabBar::tab:left:last, QTabBar::tab:right:last,QTabBar::tab:left:only-one, QTab
 }</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Evenementinfo">
        <attribute name="title">
@@ -2696,7 +2842,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
          <string>Trier par Type</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="Event_push_TriNom">
+       <widget class="QPushButton" name="Event_push_TriID">
         <property name="geometry">
          <rect>
           <x>410</x>
@@ -2721,7 +2867,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
 }</string>
         </property>
         <property name="text">
-         <string>Trier par Nom</string>
+         <string>Trier par ID</string>
         </property>
        </widget>
        <widget class="QRadioButton" name="Event_radio_Nom">
@@ -3103,8 +3249,36 @@ QGroupBox::title  {
           <x>10</x>
           <y>10</y>
           <width>1181</width>
-          <height>601</height>
+          <height>561</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Event_push_UpdateStats">
+        <property name="geometry">
+         <rect>
+          <x>500</x>
+          <y>580</y>
+          <width>201</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Montserrat Medium</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 10px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+        </property>
+        <property name="text">
+         <string>Update Statistiques</string>
         </property>
        </widget>
       </widget>
@@ -3835,7 +4009,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
          <string/>
         </property>
        </widget>
-       <widget class="QPushButton" name="Four_push_TriID">
+       <widget class="QPushButton" name="Four_push_TriType">
         <property name="geometry">
          <rect>
           <x>540</x>
@@ -3860,7 +4034,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
 }</string>
         </property>
         <property name="text">
-         <string>Trier par ID</string>
+         <string>Trier par Type</string>
         </property>
        </widget>
        <widget class="QPushButton" name="Four_push_TriNom">
@@ -3923,34 +4097,6 @@ background-color: rgba(134, 47, 147, 50);
 border: 1px solid rgba(128, 97, 171, 200);
 border-radius: 10px;
 }</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="Four_push_TriPrix">
-        <property name="geometry">
-         <rect>
-          <x>670</x>
-          <y>490</y>
-          <width>131</width>
-          <height>21</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Montserrat Medium</family>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QPushButton {
-background-color: rgba(199, 153, 207, 200);
-border-radius: 10px;
-}
-QPushButton:hover {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
-}</string>
-        </property>
-        <property name="text">
-         <string>Trier par Prix</string>
         </property>
        </widget>
        <widget class="QTableView" name="Four_TableView">
@@ -4117,6 +4263,16 @@ QGroupBox::title  {
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
+           <widget class="QLabel" name="Four_label_EmailInfo">
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
            <layout class="QFormLayout" name="formLayout">
             <item row="0" column="0">
              <widget class="QLabel" name="nomLabel">
@@ -4202,19 +4358,6 @@ QGroupBox::title  {
            </widget>
           </item>
           <item>
-           <spacer name="verticalSpacer">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
              <spacer name="horizontalSpacer">
@@ -4275,8 +4418,36 @@ QGroupBox::title  {
           <x>10</x>
           <y>10</y>
           <width>1181</width>
-          <height>601</height>
+          <height>561</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Four_push_UpdateStats">
+        <property name="geometry">
+         <rect>
+          <x>500</x>
+          <y>580</y>
+          <width>201</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Montserrat Medium</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 10px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+        </property>
+        <property name="text">
+         <string>Update Statistiques</string>
         </property>
        </widget>
       </widget>
@@ -5209,8 +5380,36 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
           <x>10</x>
           <y>10</y>
           <width>1181</width>
-          <height>601</height>
+          <height>571</height>
          </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Loc_push_UpdateStats">
+        <property name="geometry">
+         <rect>
+          <x>500</x>
+          <y>590</y>
+          <width>201</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Montserrat Medium</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 10px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+        </property>
+        <property name="text">
+         <string>Update Statistiques</string>
         </property>
        </widget>
       </widget>

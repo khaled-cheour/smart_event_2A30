@@ -24,11 +24,19 @@
 #include <QTcpSocket>
 #include <QTextStream>
 #include "smtp.h"
+#include <QCoreApplication>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->Login_line_CIN->setValidator( new QIntValidator(0, 99999999, this));
+    ui->stackedWidget->setCurrentIndex(0);
+    ui->Main_push_Personnel->setDisabled(true);
+    ui->Main_push_Evenement->setDisabled(true);
+    ui->Main_push_Fournisseur->setDisabled(true);
+    ui->Main_push_Locaux->setDisabled(true);
+    ui->Main_push_Sponsoring->setDisabled(true);
     connexion c;
     bool test=c.CreateConnexion();
     if(test)
@@ -44,12 +52,12 @@ MainWindow::MainWindow(QWidget *parent)
     case(-1):qDebug()<< "arduino is not availble";
     }
     QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_RFID()));
-
     /*Khaled Setup*/
     ui->Perso_line_CIN->setValidator( new QIntValidator(0, 99999999, this));
     ui->Perso_line_Absance->setValidator( new QIntValidator(0, 999, this));
     ui->Perso_combo_CIN->setModel(P.afficher_cin());
     ui->Perso_TableView->setModel (P.afficher());
+    ui->Perso_table_MDM->setModel (P.afficher_MDM());
     P.write(P.time(),"App started");
     ui->Perso_textbrowser->setText(P.read());
     nSocket=new QTcpSocket(this);
@@ -58,7 +66,6 @@ MainWindow::MainWindow(QWidget *parent)
         auto text=T.readAll();
         ui->Perso_text_Chatbox->append(text);
     });
-
     /*Ala Setup*/
     ui->Sponso_line_ID->setValidator( new QIntValidator(0, 99999999, this));
     ui->Sponso_line_NumTel->setValidator( new QIntValidator(0, 99999999, this));
@@ -67,7 +74,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Sponso_combo_ID->setModel(S.afficher_id());
     ui->Sponso_combo_IDSMS->setModel(S.afficher_id());
     ui->Sponso_TableView->setModel (S.afficher());
-
     /*Aziz Setup*/
     ui->Event_line_ID->setValidator( new QIntValidator(0, 99999999, this));
     ui->Event_line_NbrPerso->setValidator( new QIntValidator(0, 99999, this));
@@ -76,8 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     E.write(E.time(),"App started");
     ui->Event_textbrowser->setText(E.read());
     ui->Event_table_Calander->setModel(E.afficher1());
-    MainWindow::Event_MakeStat();
-
+    MainWindow::on_Event_push_UpdateStats_clicked();
     /*Lina Setup*/
     ui->Four_line_ID->setValidator( new QIntValidator(0, 99999999, this));
     ui->Four_line_Prix->setValidator( new QIntValidator(0, 99999999, this));
@@ -89,8 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Four_TableView->setModel (F.afficher());
     F.write(F.time(),"App started");
     ui->Four_textbrowser->setText(F.read());
-    MainWindow::Four_MakeStat();
-
+    MainWindow::on_Four_push_UpdateStats_clicked();
     /*Farah Setup*/
     ui->Loc_line_Prix->setValidator( new QIntValidator(0, 99999999, this));
     ui->Loc_line_NbrPerso->setValidator( new QIntValidator(0, 99999999, this));
@@ -98,27 +102,59 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Loc_TableView->setModel (L.afficher());
     L.write(L.time(),"App started");
     ui->Loc_textbrowser->setText(L.read());
-    MainWindow::Loc_MakeStat();
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(), QCoreApplication::applicationName());
-
+    MainWindow::on_Loc_push_UpdateStats_clicked();
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,QCoreApplication::organizationName(), QCoreApplication::applicationName());
     ui->Loc_WebBrowser->dynamicCall("Navigate(const QString&)", "https://www.google.com/maps/place/ESPRIT/@36.9016729,10.1713215,15z");
 }
-
+MainWindow::MainWindow(QString e,QString n,QMainWindow *parent){
+    QString contenu="Contenu";
+    ui->setupUi(this);
+    ui->recipient_2->setText(e);
+    ui->uname->setText("smarteventoplanner@gmail.com");
+    ui->passwd_2->setText("okgxvskpbwjzyocr ");
+    ui->passwd_2->setEchoMode(QLineEdit::Password);
+}
 MainWindow::~MainWindow(){
     delete ui;
 }
-
 void MainWindow::on_Login_push_Login_clicked(){
     QString CIN = ui->Login_line_CIN->text();
     QString PASSWORD = ui->Login_line_Password->text();
     QSqlQuery query;
-    if(query.exec("SELECT* from PERSONNEL where CIN='"+CIN+"' and PASSWORD='"+PASSWORD+"'" ))
+    QString gestion;
+    if(query.exec("SELECT * from PERSONNEL where CIN='"+CIN+"' and PASSWORD='"+PASSWORD+"'" ))
     {
         if (query.next())
         {
+            gestion=query.value(7).toString();
+
             ui->Login_label_LoginInfo->setText("CIN et Password sont correct");
             ui->stackedWidget->setCurrentIndex(1);
+            if (gestion.compare("Administrateur")==0){
+                ui->Main_push_Personnel->setEnabled(true);
+                ui->Main_push_Evenement->setEnabled(true);
+                ui->Main_push_Fournisseur->setEnabled(true);
+                ui->Main_push_Locaux->setEnabled(true);
+                ui->Main_push_Sponsoring->setEnabled(true);
+            }
+            if (gestion.compare("Personnel")==0){
+                ui->Main_push_Personnel->setEnabled(true);
+            }
+            if (gestion.compare("Evenement")==0){
+                ui->Main_push_Evenement->setEnabled(true);
+            }
+            if (gestion.compare("Fournisseur")==0){
+                ui->Main_push_Fournisseur->setEnabled(true);
+            }
+            if (gestion.compare("Locaux")==0){
+                ui->Main_push_Locaux->setEnabled(true);
+            }
+            if (gestion.compare("Sponsoring")==0){
+                ui->Main_push_Sponsoring->setEnabled(true);
+            }
+            QString NOM=query.value(1).toString();
+            QString PRENOM=query.value(2).toString();
+            ui->Main_label_LoggedAs->setText("Logged in as: "+NOM+" "+PRENOM+"\nGestion: "+gestion+"");
         }
         else
         {
@@ -126,6 +162,13 @@ void MainWindow::on_Login_push_Login_clicked(){
         }
     }
 }
+int modes=1;
+void MainWindow::on_Login_check_PassShowHide_clicked()
+{
+    if(modes==1){ui->Login_line_Password->setEchoMode(QLineEdit::Normal);modes=0;}
+    else{ui->Login_line_Password->setEchoMode(QLineEdit::Password);modes=1;}
+}
+void MainWindow::on_Main_push_Return_clicked(){ui->stackedWidget->setCurrentIndex(0);}
 void MainWindow::on_Main_push_Personnel_clicked(){ui->stackedWidget->setCurrentIndex(2);}
 void MainWindow::on_Main_push_Evenement_clicked(){ui->stackedWidget->setCurrentIndex(3);}
 void MainWindow::on_Main_push_Fournisseur_clicked(){ui->stackedWidget->setCurrentIndex(4);}
@@ -145,13 +188,14 @@ void MainWindow::on_Perso_push_Ajouter_clicked(){
     int ABSANCE=ui->Perso_line_Absance->text().toInt();
     QString PASSWORD=ui->Perso_line_Password->text();
     QString RFID=ui->Perso_line_RFID->text();
-    QByteArray PHOTO;
+    QString PHOTO=ui->Perso_label_Photo->text();
     personnel P(CIN,NOM,PRENOM,GENDER,DATE_DE_NAISSANCE,EMAIL,ADRESSE,GESTION,ABSANCE,PASSWORD,RFID,PHOTO);
     bool test=P.ajouter();
     if(test)
     {
         ui->Perso_Label_GestionInfo->setText("Ajout Effectué");
         ui->Perso_TableView->setModel(P.afficher());
+        ui->Perso_table_MDM->setModel (P.afficher_MDM());
         P.write(P.time(),"PERSONNEL: ajout effectué");
         ui->Perso_textbrowser->setText(P.read());
     }
@@ -172,13 +216,14 @@ void MainWindow::on_Perso_push_Modifier_clicked(){
     int ABSANCE=ui->Perso_line_Absance->text().toInt();
     QString PASSWORD=ui->Perso_line_Password->text();
     QString RFID=ui->Perso_line_RFID->text();
-    QByteArray PHOTO;
+    QString PHOTO=ui->Perso_label_Photo->text();
     personnel P(CIN,NOM,PRENOM,GENDER,DATE_DE_NAISSANCE,EMAIL,ADRESSE,GESTION,ABSANCE,PASSWORD,RFID,PHOTO);
     bool test=P.modifierP();
     if(test)
     {
         ui->Perso_Label_GestionInfo->setText("Modification effectué");
         ui->Perso_TableView->setModel(P.afficher());
+        ui->Perso_table_MDM->setModel (P.afficher_MDM());
         ui->Perso_combo_CIN->setModel(P.afficher_cin());
         P.write(P.time(),"PERSONNEL: Modification effectuée");
         ui->Perso_textbrowser->setText(P.read());
@@ -198,6 +243,7 @@ void MainWindow::on_Perso_push_Supprimer_clicked(){
         ui->Perso_TableView->setModel(P.afficher());
         ui->Perso_combo_CIN->setModel(P.afficher_cin());
         P.write(P.time(),"PERSONNEL: Supression effectuée");
+        ui->Perso_table_MDM->setModel (P.afficher_MDM());
         ui->Perso_textbrowser->setText(P.read());
     }
     else
@@ -205,7 +251,7 @@ void MainWindow::on_Perso_push_Supprimer_clicked(){
         ui->Perso_Label_GestionInfo->setText("Suppression non effectué");
     }
 }
-void MainWindow::updateMDM(){
+void MainWindow::on_Perso_push_EDM_clicked(){
     ui->Perso_table_MDM->setModel(P.triMDM());
 }
 void MainWindow::on_Perso_push_Photo_clicked(){
@@ -216,6 +262,7 @@ void MainWindow::on_Perso_push_Photo_clicked(){
         bool valid=image.load(filename);
         if(valid)
         {
+            ui->Perso_Label_Photoname->setText(filename);
             image=image.scaledToWidth(ui->Perso_label_Photo->width(),Qt::SmoothTransformation);
             ui->Perso_label_Photo->setPixmap(QPixmap::fromImage(image));
         }
@@ -773,7 +820,7 @@ void MainWindow::Event_statistiques(QVector<double>* ticks,QVector<QString> *lab
 {
     QSqlQuery qry;
     int i=0;
-    qry.exec("SELECT COUNT(*) FROM EVENTMENT");
+    qry.exec("SELECT ID FROM EVENTMENT");
     while (qry.next())
     {
         QString ID = qry.value(0).toString();
@@ -782,7 +829,7 @@ void MainWindow::Event_statistiques(QVector<double>* ticks,QVector<QString> *lab
         *labels <<ID;
     }
 }
-void MainWindow::Event_MakeStat()
+void MainWindow::on_Event_push_UpdateStats_clicked()
 {
     QLinearGradient gradient(0, 0, 0, 400);
     gradient.setColorAt(0, QColor(255, 255, 255));
@@ -815,7 +862,7 @@ void MainWindow::Event_MakeStat()
 
     ui->Event_Plot->yAxis->setRange(0,10);
     ui->Event_Plot->yAxis->setPadding(5);
-    ui->Event_Plot->yAxis->setLabel("MONTANT");
+    ui->Event_Plot->yAxis->setLabel("NOMBRE_PERSONNES");
     ui->Event_Plot->yAxis->setBasePen(QPen(Qt::black));
     ui->Event_Plot->yAxis->setTickPen(QPen(Qt::black));
     ui->Event_Plot->yAxis->setSubTickPen(QPen(Qt::black));
@@ -825,7 +872,7 @@ void MainWindow::Event_MakeStat()
     ui->Event_Plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
     ui->Event_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
     QVector<double> PlaceData;
-    QSqlQuery q1("SELECT TYPE FROM EVENTMENT");
+    QSqlQuery q1("SELECT NOMBRE_PERSONNES FROM EVENTMENT");
     while (q1.next())
     {
         int  nbr_fautee = q1.value(0).toInt();
@@ -970,7 +1017,7 @@ void MainWindow::on_Four_combo_ID_currentIndexChanged(int){
 void MainWindow::on_Four_push_Fermer_clicked(){
     ui->stackedWidget->setCurrentIndex(1);
 }
-void MainWindow::Four_MakeStat(){
+void MainWindow::on_Four_push_UpdateStats_clicked(){
     /***** Background *****/
         QLinearGradient gradient(0, 0, 0, 400);
         gradient.setColorAt(0, QColor(255, 255, 255));
@@ -1029,31 +1076,10 @@ void MainWindow::Four_MakeStat(){
         ui->Four_Plot->legend->setFont(legendFont);
         ui->Four_Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 }
-MainWindow::MainWindow(QString e,QString n,QString s,QWidget *parent){
-    QString contenu="Contenu";
-    ui->setupUi(this);
-
-    ui->recipient_2->setText(e);
-    ui->uname->setText("smarteventoplanner@gmail.com");
-    ui->passwd_2->setText("okgxvskpbwjzyocr ");
-    ui->passwd_2->setEchoMode(QLineEdit::Password);
-
-    if (s=="Homme")
-    {
-        ui->message_2->setText("Cher Monsieur "+n+",\n\n"+contenu+"\n\n"+"Cordialement,\n");
-    }
-    else if (s=="Femme")
-    {
-        ui->message_2->setText("ChÃ¨re Madame "+n+",\n\n"+contenu+"\n\n"+"Cordialement,\n");
-    }
-
-}
-void MainWindow::on_envoyer_dialog_2_clicked()
-{QString status;
+void MainWindow::on_envoyer_dialog_2_clicked(){
+    QString status;
     Smtp* smtp = new Smtp(ui->uname->text(), ui->passwd_2->text(), "smtp.gmail.com", 465); //smtp.gmail.com
-
     smtp->sendMail(ui->uname->text(), ui->recipient_2->text() , ui->subjectLineEdit_2->text() ,ui->message_2->toPlainText());
-
     if(status == "Message sent")
         QMessageBox::warning( 0, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
 }
@@ -1195,7 +1221,7 @@ void MainWindow::on_Loc_push_TriNbrPerso_clicked(){
     ui->Loc_label_ListeInfo->setText("Tri par Nbr Places effectué");
     ui->Loc_TableView->setModel(L.tri_NbPlace());
 }
-void MainWindow::on_Loc_combo_ID_currentIndexChanged(int index){
+void MainWindow::on_Loc_combo_Adresse_currentIndexChanged(int){
     QString adresse=ui->Loc_combo_Adresse->currentText();
     QString adresse_1=QString::const_reference(adresse);
     QSqlQuery query;
@@ -1221,7 +1247,7 @@ void MainWindow::on_Loc_combo_ID_currentIndexChanged(int index){
 void MainWindow::on_Loc_push_Fermer_clicked(){
     ui->stackedWidget->setCurrentIndex(1);
 }
-void MainWindow::Loc_MakeStat(){
+void MainWindow::on_Loc_push_UpdateStats_clicked(){
     /***** Background *****/
     QLinearGradient gradient(0, 0, 0, 400);
     gradient.setColorAt(0, QColor(255, 255, 255));

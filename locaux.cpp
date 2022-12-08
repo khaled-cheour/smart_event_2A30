@@ -57,14 +57,14 @@ bool locaux::AjouterL()
 bool locaux::SupprimerL(QString ADRESSE)
 {
     QSqlQuery query;
-         query.prepare("DELETE FROM LOCAUX where NOM= :NOM");
+         query.prepare("DELETE FROM LOCAUX where ADRESSE= :ADRESSE");
          query.bindValue(0, ADRESSE);
     return query.exec();
 }
 bool locaux::ModifierL()
 {
     QSqlQuery query;
-        query.prepare("UPDATE LOCAUX SET ADRESSE=:ADRESSE, SUPERFICIE=:SUPERFICIE, NPLACES=:NPLACES, PRIX=:PRIX, DESCRIPTION=:DESCRIPTION WHERE NOM=:NOM ");
+        query.prepare("UPDATE LOCAUX SET NOM=:NOM, SUPERFICIE=:SUPERFICIE, NPLACES=:NPLACES, PRIX=:PRIX, DESCRIPTION=:DESCRIPTION WHERE ADRESSE=:ADRESSE ");
         query.bindValue(":NOM", NOM);
         query.bindValue(":SUPERFICIE", SUPERFICIE);
         query.bindValue(":NPLACES", NPLACES);

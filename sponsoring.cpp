@@ -180,7 +180,7 @@ void sponsoring::postrequest(QString smsmsg,QString phonenumber){
     QObject::connect(&mgr, SIGNAL(finished(QNetworkReply*)), &eventLoop, SLOT(quit()));
     QNetworkRequest req( QUrl( QString("https://api.orange.com/smsmessaging/v1/outbound/tel%3A%2B322804/requests") ) );
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    req.setRawHeader("Authorization", "Bearer hqRfnJmzVeHwrGeV3Ar8iSvQvrbl");
+    req.setRawHeader("Authorization", "Bearer 7CdArKi210AGy60ULGsVd3pTozQr");
     QJsonObject msg;
     msg["message"] = smsmsg;
     QJsonObject obj;

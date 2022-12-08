@@ -50,16 +50,18 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
-    MainWindow(QString,QString,QString,QWidget *parent = nullptr);
-    ~MainWindow();
+    MainWindow(QString,QString,QMainWindow *parent = nullptr);
+    ~   MainWindow();
 private slots:
     void on_Login_push_Login_clicked();
+    void on_Login_check_PassShowHide_clicked();
     void on_Main_push_Personnel_clicked();
     void on_Main_push_Evenement_clicked();
     void on_Main_push_Fournisseur_clicked();
     void on_Main_push_Locaux_clicked();
     void on_Main_push_Sponsoring_clicked();
     void on_Main_push_Quitter_clicked();
+    void on_Main_push_Return_clicked();
     /*INTEGRATION KHALED*/
     void on_Perso_push_Ajouter_clicked();
     void on_Perso_push_Modifier_clicked();
@@ -76,7 +78,7 @@ private slots:
     void on_Perso_combo_CIN_currentIndexChanged(int index);
     void on_Perso_line_Recherche_textChanged(const QString &arg1);
     void Perso_choix_pie();
-    void updateMDM();
+    void on_Perso_push_EDM_clicked();
     void on_Perso_TableView_pressed(const QModelIndex &index);
     void update_RFID();
     void on_Perso_push_Arduino_clicked();
@@ -113,7 +115,7 @@ private slots:
     void on_Event_Calander_selectionChanged();
     void on_Event_radio_ASC_clicked();
     void on_Event_radio_DESC_clicked();
-    void Event_MakeStat();
+    void on_Event_push_UpdateStats_clicked();
     void Event_statistiques(QVector<double>* ticks,QVector<QString> *labels);
     /*INTEGRATION LINA*/
     void on_Four_push_Ajouter_clicked();
@@ -124,7 +126,7 @@ private slots:
     void on_Four_combo_ID_currentIndexChanged(int index);
     void on_Four_push_Fermer_clicked();
     void on_Four_push_SupprimerTextBrowser_clicked();
-    void Four_MakeStat();
+    void on_Four_push_UpdateStats_clicked();
     void on_Four_TableView_pressed(const QModelIndex &index);
     void Four_statistiques(QVector<double>* ticks,QVector<QString> *labels);
     void on_Four_line_Recherche_textChanged(const QString &arg1);
@@ -138,10 +140,10 @@ private slots:
     void on_Loc_push_TriPrix_clicked();
     void on_Loc_push_TriNom_clicked();
     void on_Loc_push_TriNbrPerso_clicked();
-    void on_Loc_combo_ID_currentIndexChanged(int index);
+    void on_Loc_combo_Adresse_currentIndexChanged(int index);
     void on_Loc_push_Fermer_clicked();
     void on_Loc_push_SupprimerTextBrowser_clicked();
-    void Loc_MakeStat();
+    void on_Loc_push_UpdateStats_clicked();
     void Loc_statistiques(QVector<double>* ticks,QVector<QString> *labels);
     void on_Loc_line_Recherche_textChanged(const QString &arg1);
     void on_Loc_push_ExportPDF_clicked();
@@ -156,9 +158,9 @@ private:
     sponsoring S;
     evenement E;
     fournisseur F;
+    QString tmpemail;
     QMediaPlayer* player;
     QVideoWidget* vw;
     QTcpSocket *nSocket;
-    QString tmpemail;
 };
 #endif // MAINWINDOW_H

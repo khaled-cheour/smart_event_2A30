@@ -157,7 +157,7 @@ QSqlQueryModel * evenement::tri_date()
 /**************************************/
 QString evenement::read()
 {
-    QFile file("qrc:/Historique/Historique/H_Evenement.txt");
+    QFile file("D:/Studies/SmartEventPlanner/Historique_Evenement.txt");
     if(!file.open(QIODevice::ReadOnly))
         QMessageBox::information(0,"info",file.errorString());
     QTextStream in(&file);
@@ -165,7 +165,7 @@ QString evenement::read()
 }
 void evenement::write(QString time, QString txt)
 {
-    QFile file("qrc:///Historique/Historique/H_Evenement.txt");
+    QFile file("D:/Studies/SmartEventPlanner/Historique_Evenement.txt");
     if(file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
     {
         QTextStream stream(&file);
@@ -180,7 +180,7 @@ QString evenement::time()
 }
 void evenement::clearh()
 {
-    QFile file("qrc:/Historique/Historique/H_Evenement.txt");
+    QFile file("D:/Studies/SmartEventPlanner/Historique_Evenement.txt");
     file.open(QFile::WriteOnly|QFile::Truncate);
 }
 void evenement::clearTable(QTableView *table)

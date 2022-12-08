@@ -8,6 +8,9 @@
         <file>Resources/control_pause.png</file>
         <file>Resources/control_play.png</file>
         <file>Resources/control_stop.png</file>
+        <file>Resources/HidePassIcon.png</file>
+        <file>Resources/ShowPassIcon.png</file>
+        <file>LogoIcon.ico</file>
     </qresource>
     <qresource prefix="/Videos">
         <file>Resources/Pack1.mp4</file>
