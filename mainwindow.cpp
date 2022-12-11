@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "connexion.h"
 #include "exportexcelobject.h"
+#include <QCalendarWidget>
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QDesktopServices>
@@ -81,14 +82,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Event_TableView->setModel (E.afficher());
     E.write(E.time(),"App started");
     ui->Event_textbrowser->setText(E.read());
-    ui->Event_table_Calander->setModel(E.afficher1());
     MainWindow::on_Event_push_UpdateStats_clicked();
     /*Lina Setup*/
     ui->Four_line_ID->setValidator( new QIntValidator(0, 99999999, this));
     ui->Four_line_Prix->setValidator( new QIntValidator(0, 99999999, this));
-    connect(ui->envoyer_dialog_2, SIGNAL(clicked()),this, SLOT(sendMail()));
-    connect(ui->annuler_mail_2, SIGNAL(clicked()),this, SLOT(close()));
-    QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));
+    MainWindow::connect(ui->envoyer_dialog_2, SIGNAL(clicked()),this, SLOT(sendMail()));
+    MainWindow::connect(ui->annuler_mail_2, SIGNAL(clicked()),this, SLOT(close()));
+    MainWindow::QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));
     ui->Four_line_ID->setValidator( new QIntValidator(0, 99999999, this));
     ui->Four_combo_ID->setModel(F.afficher_id());
     ui->Four_TableView->setModel (F.afficher());
@@ -106,7 +106,10 @@ MainWindow::MainWindow(QWidget *parent)
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,QCoreApplication::organizationName(), QCoreApplication::applicationName());
     ui->Loc_WebBrowser->dynamicCall("Navigate(const QString&)", "https://www.google.com/maps/place/ESPRIT/@36.9016729,10.1713215,15z");
 }
-MainWindow::MainWindow(QString e,QString n,QMainWindow *parent){
+MainWindow::MainWindow(QString e,QString n,QMainWindow *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
     QString contenu="Contenu";
     ui->setupUi(this);
     ui->recipient_2->setText(e);
@@ -127,8 +130,7 @@ void MainWindow::on_Login_push_Login_clicked(){
         if (query.next())
         {
             gestion=query.value(7).toString();
-
-            ui->Login_label_LoginInfo->setText("CIN et Password sont correct");
+            
             ui->stackedWidget->setCurrentIndex(1);
             if (gestion.compare("Administrateur")==0){
                 ui->Main_push_Personnel->setEnabled(true);
@@ -137,23 +139,44 @@ void MainWindow::on_Login_push_Login_clicked(){
                 ui->Main_push_Locaux->setEnabled(true);
                 ui->Main_push_Sponsoring->setEnabled(true);
             }
-            if (gestion.compare("Personnel")==0){
+            if (gestion.compare("Personnels")==0){
                 ui->Main_push_Personnel->setEnabled(true);
+                ui->Main_push_Evenement->setEnabled(false);
+                ui->Main_push_Fournisseur->setEnabled(false);
+                ui->Main_push_Locaux->setEnabled(false);
+                ui->Main_push_Sponsoring->setEnabled(false);
             }
-            if (gestion.compare("Evenement")==0){
+            if (gestion.compare("Evenements")==0){
+                ui->Main_push_Personnel->setEnabled(false);
                 ui->Main_push_Evenement->setEnabled(true);
+                ui->Main_push_Fournisseur->setEnabled(false);
+                ui->Main_push_Locaux->setEnabled(false);
+                ui->Main_push_Sponsoring->setEnabled(false);
             }
-            if (gestion.compare("Fournisseur")==0){
+            if (gestion.compare("Fournisseurs")==0){
+                ui->Main_push_Personnel->setEnabled(false);
+                ui->Main_push_Evenement->setEnabled(false);
                 ui->Main_push_Fournisseur->setEnabled(true);
+                ui->Main_push_Locaux->setEnabled(false);
+                ui->Main_push_Sponsoring->setEnabled(false);
             }
             if (gestion.compare("Locaux")==0){
+                ui->Main_push_Personnel->setEnabled(false);
+                ui->Main_push_Evenement->setEnabled(false);
+                ui->Main_push_Fournisseur->setEnabled(false);
                 ui->Main_push_Locaux->setEnabled(true);
+                ui->Main_push_Sponsoring->setEnabled(false);
             }
             if (gestion.compare("Sponsoring")==0){
+                ui->Main_push_Personnel->setEnabled(false);
+                ui->Main_push_Evenement->setEnabled(false);
+                ui->Main_push_Fournisseur->setEnabled(false);
+                ui->Main_push_Locaux->setEnabled(false);
                 ui->Main_push_Sponsoring->setEnabled(true);
             }
             QString NOM=query.value(1).toString();
             QString PRENOM=query.value(2).toString();
+            ui->Login_label_LoginInfo->setText("Connecté: "+NOM+" "+PRENOM+"");
             ui->Main_label_LoggedAs->setText("Logged in as: "+NOM+" "+PRENOM+"\nGestion: "+gestion+"");
         }
         else
@@ -216,7 +239,7 @@ void MainWindow::on_Perso_push_Modifier_clicked(){
     int ABSANCE=ui->Perso_line_Absance->text().toInt();
     QString PASSWORD=ui->Perso_line_Password->text();
     QString RFID=ui->Perso_line_RFID->text();
-    QString PHOTO=ui->Perso_label_Photo->text();
+    QString PHOTO=ui->Perso_Label_Photoname->text();
     personnel P(CIN,NOM,PRENOM,GENDER,DATE_DE_NAISSANCE,EMAIL,ADRESSE,GESTION,ABSANCE,PASSWORD,RFID,PHOTO);
     bool test=P.modifierP();
     if(test)
@@ -391,6 +414,16 @@ void MainWindow::update_RFID(){
         {
             if (query.next())
             {
+                ui->Perso_line_CIN->setText(query.value(0).toString()) ;
+                ui->Perso_line_Nom->setText(query.value(1).toString()) ;
+                ui->Perso_line_Prenom->setText(query.value(2).toString()) ;
+                ui->Perso_combo_Gender->setCurrentText(query.value(3).toString()) ;
+                ui->Perso_date_DDN->setDate(query.value(4).toDate()) ;
+                ui->Perso_line_Email->setText(query.value(5).toString()) ;
+                ui->Perso_line_Adresse->setText(query.value(6).toString()) ;
+                ui->Perso_combo_Gestion->setCurrentText(query.value(7).toString()) ;
+                ui->Perso_line_Absance->setText(query.value(8).toString()) ;
+                ui->Perso_line_Password->setText(query.value(9).toString()) ;
                 QString NOM= query.value(1).toString();
                 QString PRENOM= query.value(2).toString();
                 UserMessage=NOM+" "+PRENOM;
@@ -411,7 +444,7 @@ void MainWindow::update_RFID(){
                 qDebug() <<  " RFID is: " <<RFID;
                 qDebug() <<  " User: " <<UserMessage;
                 // qDebug() <<  " Arduino Signal: " <<message;
-
+                
             }
             else
             {
@@ -711,7 +744,6 @@ void MainWindow::on_Event_push_Ajouter_clicked(){
         ui->Event_Label_GestionInfo->setText("Ajout Effectué");
         ui->Event_combo_ID->setModel(E.afficher_id());
         ui->Event_TableView->setModel(E.afficher());
-        ui->Event_table_Calander->setModel(E.afficher1());
         E.write(E.time(),"EVENEMENT: Ajout effectué");
         ui->Event_textbrowser->setText(E.read());
     }
@@ -737,7 +769,6 @@ void MainWindow::on_Event_push_Modifier_clicked(){
         ui->Event_Label_GestionInfo->setText("Modification effectué");
         ui->Event_combo_ID->setModel(E.afficher());
         ui->Event_TableView->setModel(E.afficher_id());
-        ui->Event_table_Calander->setModel(E.afficher1());
         E.write(E.time(),"EVENEMENT: Modification Effectuée");
         ui->Event_textbrowser->setText(E.read());
     }
@@ -755,7 +786,6 @@ void MainWindow::on_Event_push_Supprimer_clicked(){
         ui->Event_Label_GestionInfo->setText("Suppression effectué");
         ui->Event_TableView->setModel(E.afficher());
         ui->Event_combo_ID->setModel(E.afficher_id());
-        ui->Event_table_Calander->setModel(E.afficher1());
         E.write(E.time(),"EVENEMENT: Supression effectuée");
         ui->Event_textbrowser->setText(E.read());
     }
@@ -808,6 +838,7 @@ void MainWindow::on_Event_combo_ID_currentIndexChanged(int){
             ui->Event_line_NbrPerso->setText(query.value(4).toString()) ;
             ui->Event_date_Date->setDate(query.value(5).toDate()) ;
             ui->Event_time_Heure->setTime(query.value(6).toTime()) ;
+            ui->Event_Calander_2->setSelectedDate(query.value(5).toDate());
         }
     }
     else
@@ -837,11 +868,9 @@ void MainWindow::on_Event_push_UpdateStats_clicked()
     QCPBars *A = new QCPBars(ui->Event_Plot->xAxis, ui->Event_Plot->yAxis);
     A->setAntialiased(false);
     A->setStackingGap(1);
-
-    A->setName("Les Montants des reservations selon les ID");
+    A->setName("Les Nbr.Personnes selon les ID");
     A->setPen(QPen(QColor(255, 0, 0).lighter(120)));
     A->setBrush(QColor(39, 39, 39));
-
     QVector<double> ticks;
     QVector<QString> labels;
     Event_statistiques(&ticks,&labels);
@@ -859,7 +888,6 @@ void MainWindow::on_Event_push_UpdateStats_clicked()
     ui->Event_Plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
     ui->Event_Plot->xAxis->setTickLabelColor(Qt::black);
     ui->Event_Plot->xAxis->setLabelColor(Qt::black);
-
     ui->Event_Plot->yAxis->setRange(0,10);
     ui->Event_Plot->yAxis->setPadding(5);
     ui->Event_Plot->yAxis->setLabel("NOMBRE_PERSONNES");
@@ -888,14 +916,11 @@ void MainWindow::on_Event_push_UpdateStats_clicked()
     ui->Event_Plot->legend->setFont(legendFont);
     ui->Event_Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 }
-void MainWindow::on_Event_combo_IDCalander_currentIndexChanged(int){
-
-}
 void MainWindow::on_Event_push_Excel_clicked(){
     QString fileName = QFileDialog::getSaveFileName(this, tr("Excel file"), qApp->applicationDirPath (), tr("Excel Files (*.xls)"));
     if (fileName.isEmpty())
         return;
-    ExportExcelObject obj(fileName, "mydata", ui->Event_TableView);
+    ExportExcelObject obj(fileName, "EVENEMENT", ui->Event_TableView);
     obj.addField(7, "PRIX_F", "char(20)");
     obj.addField(8, "PRIX_L", "char(20)");
     int retVal = obj.export2Excel();
@@ -907,16 +932,32 @@ void MainWindow::on_Event_push_Excel_clicked(){
 void MainWindow::on_Event_push_Fermer_clicked(){
     ui->stackedWidget->setCurrentIndex(1);
 }
-void MainWindow::on_Event_Calander_selectionChanged(){
-    ui->Event_date_DateCalander->setDate(ui->Event_Calander->selectedDate());
+void MainWindow::on_Event_Calander_2_selectionChanged(){
+    ui->Event_date_Date->setDate(ui->Event_Calander_2->selectedDate());
+    QDate date=QDate(ui->Event_Calander_2->selectedDate());
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM EVENEMENT")){
+        if (query.next()){
+            QDate date1=query.value("DATE_E").toDate();
+            QString id=query.value("ID").toString();
+            QString nom=query.value("NOM").toString();
+            QString type=query.value("TYPE").toString();
+            QString lieu=query.value("LIEU").toString();
+            QString nbrp=query.value("NOMBRE_PERSONNES").toString();
+            QString time=query.value("TIME_E").toString();
+            if (date==date1){
+                ui->Event_label_CalanderInfo->setText("Date est deja reserver");
+                ui->Event_label_CalanderRes->setText("Reserver par:\nID: "+id+"\nNom: "+nom+"\nType: "+type+"\nLieu :"+lieu+"\nNbr.Personnes: "+nbrp+"\nHeure: "+time+"");
+            }
+            else{
+                ui->Event_label_CalanderInfo->setText("Date est non reserver");
+                ui->Event_label_CalanderRes->clear();
+            }
+        }
+    }
 }
-void MainWindow::on_Event_radio_ASC_clicked(){
-    ui->Event_table_Calander->setModel(E.triasc());
-    ui->Event_table_Calander->setModel(E.afficher1());
-}
-void MainWindow::on_Event_radio_DESC_clicked(){
-    ui->Event_table_Calander->setModel(E.tridesc());
-    ui->Event_table_Calander->setModel(E.afficher1());
+void MainWindow::Event_UpdateCalender(QPainter *painter, const QRect &rect){
+
 }
 /*------------INTEGRATION LINA------------*/
 void MainWindow::on_Four_push_Ajouter_clicked(){
@@ -925,7 +966,7 @@ void MainWindow::on_Four_push_Ajouter_clicked(){
     QString PRENOM=ui->Four_line_Prenom->text();
     QString EMAIL=ui->Four_line_Email->text();
     QString TYPE_MATERIEL=ui->Four_line_Type->text();
-    QString img=ui->Four_label_Photo->text();
+    QString img=ui->Four_Label_Photoname->text();
     int PRIX=ui->Four_line_Prix->text().toInt();
     fournisseur F(ID,NOM,PRENOM,EMAIL,TYPE_MATERIEL,PRIX,img);
     bool test=F.AjouterF();
@@ -943,7 +984,7 @@ void MainWindow::on_Four_push_Ajouter_clicked(){
     }
 }
 void MainWindow::on_Four_push_Modifier_clicked(){
-
+    
     int ID=ui->Four_line_ID->text().toInt();
     QString NOM=ui->Four_line_Nom->text();
     QString PRENOM=ui->Four_line_Prenom->text();
@@ -1019,62 +1060,62 @@ void MainWindow::on_Four_push_Fermer_clicked(){
 }
 void MainWindow::on_Four_push_UpdateStats_clicked(){
     /***** Background *****/
-        QLinearGradient gradient(0, 0, 0, 400);
-        gradient.setColorAt(0, QColor(255, 255, 255));
-        ui->Four_Plot->setBackground(QBrush(gradient));
-        QCPBars *A = new QCPBars(ui->Four_Plot->xAxis, ui->Four_Plot->yAxis);
-        A->setAntialiased(false);
-        A->setStackingGap(1);
-        /***** Couleurs*****/
-        A->setName("Les prix des materiels selon les ID");
-        A->setPen(QPen(QColor(255, 0, 0).lighter(120)));
-        A->setBrush(QColor(39, 39, 39));
-        /***** Axe des abscisses *****/
-        QVector<double> ticks;
-        QVector<QString> labels;
-        Four_statistiques(&ticks,&labels);
-        QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
-        textTicker->addTicks(ticks, labels);
-        ui->Four_Plot->xAxis->setTicker(textTicker);
-        ui->Four_Plot->xAxis->setTickLabelRotation(60);
-        ui->Four_Plot->xAxis->setSubTicks(false);
-        ui->Four_Plot->xAxis->setLabel("ID");
-        ui->Four_Plot->xAxis->setTickLength(0, 4);
-        ui->Four_Plot->xAxis->setRange(0, 8);
-        ui->Four_Plot->xAxis->setBasePen(QPen(Qt::black));
-        ui->Four_Plot->xAxis->setTickPen(QPen(Qt::black));
-        ui->Four_Plot->xAxis->grid()->setVisible(true);
-        ui->Four_Plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
-        ui->Four_Plot->xAxis->setTickLabelColor(Qt::black);
-        ui->Four_Plot->xAxis->setLabelColor(Qt::black);
-        /***** Axe des ordonnées *****/
-        ui->Four_Plot->yAxis->setRange(0,200);
-        ui->Four_Plot->yAxis->setPadding(5);
-        ui->Four_Plot->yAxis->setLabel("PRIX");
-        ui->Four_Plot->yAxis->setBasePen(QPen(Qt::black));
-        ui->Four_Plot->yAxis->setTickPen(QPen(Qt::black));
-        ui->Four_Plot->yAxis->setSubTickPen(QPen(Qt::black));
-        ui->Four_Plot->yAxis->grid()->setSubGridVisible(true);
-        ui->Four_Plot->yAxis->setTickLabelColor(Qt::black);
-        ui->Four_Plot->yAxis->setLabelColor(Qt::black);
-        ui->Four_Plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
-        ui->Four_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
-        QVector<double> PlaceData;
-        QSqlQuery q1("SELECT PRIX FROM FOURNISSEUR");
-        while (q1.next())
-        {
-            int  nbr_fautee = q1.value(0).toInt();
-            PlaceData<< nbr_fautee;
-        }
-        A->setData(ticks, PlaceData);
-        ui->Four_Plot->legend->setVisible(true);
-        ui->Four_Plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
-        ui->Four_Plot->legend->setBrush(QColor(255, 255, 255, 100));
-        ui->Four_Plot->legend->setBorderPen(Qt::NoPen);
-        QFont legendFont = font();
-        legendFont.setPointSize(5);
-        ui->Four_Plot->legend->setFont(legendFont);
-        ui->Four_Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+    QLinearGradient gradient(0, 0, 0, 400);
+    gradient.setColorAt(0, QColor(255, 255, 255));
+    ui->Four_Plot->setBackground(QBrush(gradient));
+    QCPBars *A = new QCPBars(ui->Four_Plot->xAxis, ui->Four_Plot->yAxis);
+    A->setAntialiased(false);
+    A->setStackingGap(1);
+    /***** Couleurs*****/
+    A->setName("Les prix des materiels selon les ID");
+    A->setPen(QPen(QColor(255, 0, 0).lighter(120)));
+    A->setBrush(QColor(39, 39, 39));
+    /***** Axe des abscisses *****/
+    QVector<double> ticks;
+    QVector<QString> labels;
+    Four_statistiques(&ticks,&labels);
+    QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
+    textTicker->addTicks(ticks, labels);
+    ui->Four_Plot->xAxis->setTicker(textTicker);
+    ui->Four_Plot->xAxis->setTickLabelRotation(60);
+    ui->Four_Plot->xAxis->setSubTicks(false);
+    ui->Four_Plot->xAxis->setLabel("ID");
+    ui->Four_Plot->xAxis->setTickLength(0, 4);
+    ui->Four_Plot->xAxis->setRange(0, 8);
+    ui->Four_Plot->xAxis->setBasePen(QPen(Qt::black));
+    ui->Four_Plot->xAxis->setTickPen(QPen(Qt::black));
+    ui->Four_Plot->xAxis->grid()->setVisible(true);
+    ui->Four_Plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+    ui->Four_Plot->xAxis->setTickLabelColor(Qt::black);
+    ui->Four_Plot->xAxis->setLabelColor(Qt::black);
+    /***** Axe des ordonnées *****/
+    ui->Four_Plot->yAxis->setRange(0,200);
+    ui->Four_Plot->yAxis->setPadding(5);
+    ui->Four_Plot->yAxis->setLabel("PRIX");
+    ui->Four_Plot->yAxis->setBasePen(QPen(Qt::black));
+    ui->Four_Plot->yAxis->setTickPen(QPen(Qt::black));
+    ui->Four_Plot->yAxis->setSubTickPen(QPen(Qt::black));
+    ui->Four_Plot->yAxis->grid()->setSubGridVisible(true);
+    ui->Four_Plot->yAxis->setTickLabelColor(Qt::black);
+    ui->Four_Plot->yAxis->setLabelColor(Qt::black);
+    ui->Four_Plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+    ui->Four_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+    QVector<double> PlaceData;
+    QSqlQuery q1("SELECT PRIX FROM FOURNISSEUR");
+    while (q1.next())
+    {
+        int  nbr_fautee = q1.value(0).toInt();
+        PlaceData<< nbr_fautee;
+    }
+    A->setData(ticks, PlaceData);
+    ui->Four_Plot->legend->setVisible(true);
+    ui->Four_Plot->axisRect()->insetLayout()->setInsetAlignment(0, Qt::AlignTop|Qt::AlignHCenter);
+    ui->Four_Plot->legend->setBrush(QColor(255, 255, 255, 100));
+    ui->Four_Plot->legend->setBorderPen(Qt::NoPen);
+    QFont legendFont = font();
+    legendFont.setPointSize(5);
+    ui->Four_Plot->legend->setFont(legendFont);
+    ui->Four_Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 }
 void MainWindow::on_envoyer_dialog_2_clicked(){
     QString status;
@@ -1085,15 +1126,15 @@ void MainWindow::on_envoyer_dialog_2_clicked(){
 }
 void MainWindow::Four_statistiques(QVector<double>* ticks,QVector<QString> *labels){
     QSqlQuery qry;
-        int i=0;
-        qry.exec("SELECT ID FROM FOURNISSEUR");
-        while (qry.next())
-        {
-            QString ID = qry.value(0).toString();
-            i++;
-            *ticks<<i;
-            *labels <<ID;
-        }
+    int i=0;
+    qry.exec("SELECT ID FROM FOURNISSEUR");
+    while (qry.next())
+    {
+        QString ID = qry.value(0).toString();
+        i++;
+        *ticks<<i;
+        *labels <<ID;
+    }
 }
 void MainWindow::on_Four_line_Recherche_textChanged(const QString &arg1){
     if (ui->Event_radio_ID->isChecked()==true)
@@ -1146,6 +1187,15 @@ void MainWindow::on_Four_TableView_pressed(const QModelIndex &index)
             QMessageBox::information(this, tr("ERROR"), QString(tr("Not Valid!")));
         }
     }
+}
+void MainWindow::Four_update_label()
+{
+    data=A.read_from_arduino();
+    if(data=="1")
+        ui->Four_label_Arduino->setText("ON");
+    else if(data=="0")
+        ui->Four_label_Arduino->setText("OFF");
+    
 }
 /*------------INTEGRATION FARAH------------*/
 void MainWindow::on_Loc_push_Ajouter_clicked(){

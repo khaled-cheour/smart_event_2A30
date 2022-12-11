@@ -2,13 +2,6 @@
 #define MAINWINDOW_H
 #include <QWidget>
 #include <QMainWindow>
-#include "connexion.h"
-#include "personnel.h"
-#include "locaux.h"
-#include "fournisseur.h"
-#include "sponsoring.h"
-#include "arduino.h"
-#include "evenement.h"
 #include <QSortFilterProxyModel>
 #include <QTextTableFormat>
 #include <QStandardItemModel>
@@ -39,11 +32,20 @@
 #include <QDialog>
 #include <QSettings>
 #include <QDataStream>
+#include "connexion.h"
+#include "personnel.h"
+#include "locaux.h"
+#include "fournisseur.h"
+#include "sponsoring.h"
+#include "arduino.h"
+#include "smtp.h"
+#include "evenement.h"
 QT_CHARTS_USE_NAMESPACE
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 class QTcpSocket;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -52,6 +54,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     MainWindow(QString,QString,QMainWindow *parent = nullptr);
     ~   MainWindow();
+
 private slots:
     void on_Login_push_Login_clicked();
     void on_Login_check_PassShowHide_clicked();
@@ -109,14 +112,12 @@ private slots:
     void on_Event_push_SupprimerTextBrowser_clicked();
     void on_Event_line_Recherche_textChanged(const QString &arg1);
     void on_Event_combo_ID_currentIndexChanged(int index);
-    void on_Event_combo_IDCalander_currentIndexChanged(int index);
     void on_Event_push_Excel_clicked();
     void on_Event_push_Fermer_clicked();
-    void on_Event_Calander_selectionChanged();
-    void on_Event_radio_ASC_clicked();
-    void on_Event_radio_DESC_clicked();
+    void on_Event_Calander_2_selectionChanged();
     void on_Event_push_UpdateStats_clicked();
     void Event_statistiques(QVector<double>* ticks,QVector<QString> *labels);
+    void Event_UpdateCalender(QPainter *painter, const QRect &rect);
     /*INTEGRATION LINA*/
     void on_Four_push_Ajouter_clicked();
     void on_Four_push_Modifier_clicked();
@@ -133,6 +134,7 @@ private slots:
     void on_Four_push_Photo_clicked();
     void set_tmpemail(QString e){tmpemail=e;}
     void on_envoyer_dialog_2_clicked();
+    void Four_update_label();
     /*INTEGRATION FARAH*/
     void on_Loc_push_Ajouter_clicked();
     void on_Loc_push_Modifier_clicked();
@@ -162,5 +164,6 @@ private:
     QMediaPlayer* player;
     QVideoWidget* vw;
     QTcpSocket *nSocket;
+
 };
 #endif // MAINWINDOW_H
