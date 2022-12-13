@@ -77,6 +77,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Sponso_TableView->setModel (S.afficher());
     /*Aziz Setup*/
     ui->Event_line_ID->setValidator( new QIntValidator(0, 99999999, this));
+    ui->Event_line_PrixLocal->setValidator( new QIntValidator(0, 99999999, this));
+    ui->Event_line_PrixFournisseur->setValidator( new QIntValidator(0, 99999999, this));
     ui->Event_line_NbrPerso->setValidator( new QIntValidator(0, 99999, this));
     ui->Event_combo_ID->setModel(E.afficher_id());
     ui->Event_TableView->setModel (E.afficher());
@@ -88,7 +90,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Four_line_Prix->setValidator( new QIntValidator(0, 99999999, this));
     MainWindow::connect(ui->envoyer_dialog_2, SIGNAL(clicked()),this, SLOT(sendMail()));
     MainWindow::connect(ui->annuler_mail_2, SIGNAL(clicked()),this, SLOT(close()));
-    MainWindow::QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(update_label()));
+    MainWindow::QObject::connect(A.getserial(),SIGNAL(readyRead()),this,SLOT(Four_update_label()));
     ui->Four_line_ID->setValidator( new QIntValidator(0, 99999999, this));
     ui->Four_combo_ID->setModel(F.afficher_id());
     ui->Four_TableView->setModel (F.afficher());
@@ -188,7 +190,8 @@ void MainWindow::on_Login_push_Login_clicked(){
 int modes=1;
 void MainWindow::on_Login_check_PassShowHide_clicked()
 {
-    if(modes==1){ui->Login_line_Password->setEchoMode(QLineEdit::Normal);modes=0;}
+    if(modes==1){
+        ui->Login_line_Password->setEchoMode(QLineEdit::Normal);modes=0;}
     else{ui->Login_line_Password->setEchoMode(QLineEdit::Password);modes=1;}
 }
 void MainWindow::on_Main_push_Return_clicked(){ui->stackedWidget->setCurrentIndex(0);}
@@ -211,13 +214,14 @@ void MainWindow::on_Perso_push_Ajouter_clicked(){
     int ABSANCE=ui->Perso_line_Absance->text().toInt();
     QString PASSWORD=ui->Perso_line_Password->text();
     QString RFID=ui->Perso_line_RFID->text();
-    QString PHOTO=ui->Perso_label_Photo->text();
+    QString PHOTO=ui->Perso_Label_Photoname->text();
     personnel P(CIN,NOM,PRENOM,GENDER,DATE_DE_NAISSANCE,EMAIL,ADRESSE,GESTION,ABSANCE,PASSWORD,RFID,PHOTO);
     bool test=P.ajouter();
     if(test)
     {
         ui->Perso_Label_GestionInfo->setText("Ajout Effectué");
         ui->Perso_TableView->setModel(P.afficher());
+        ui->Perso_combo_CIN->setModel (P.afficher_cin());
         ui->Perso_table_MDM->setModel (P.afficher_MDM());
         P.write(P.time(),"PERSONNEL: ajout effectué");
         ui->Perso_textbrowser->setText(P.read());
@@ -396,6 +400,59 @@ void MainWindow::Perso_choix_pie(){
     chartView->setRenderHint(QPainter::Antialiasing);
     chartView->setMinimumSize(570,570);
     chartView->show();
+}
+void MainWindow::on_Perso_push_ExportPDF_clicked(){
+    QPdfWriter pdf("D:/Studies/SmartEventPlanner/ListePersonnels.pdf");
+    QPainter painter(&pdf);
+    int i = 4000;
+    painter.setPen(Qt::black);
+    painter.setFont(QFont("Arial", 30));
+    painter.drawPixmap(QRect(100,400,2000,2000),QPixmap("D:/Studies/SmartEventPlanner/ListePersonnels.pdf"));
+    painter.drawText(3000,1500,"LISTE DES PERSONNELS");
+    painter.setPen(Qt::blue);
+    painter.setFont(QFont("Arial", 50));
+    //painter.drawRect(2700,200,6300,2600);
+    painter.drawRect(0,3000,9600,500);
+    painter.setPen(Qt::black);
+    painter.setFont(QFont("Arial", 9));
+    painter.drawText(300,3300,"CIN");
+    painter.drawText(1800,3300,"NOM");
+    painter.drawText(2800,3300,"PRENOM");
+    painter.drawText(3800,3300,"GENDER");
+    painter.drawText(4800,3300,"DATE DE NAISSANCE");
+    painter.drawText(6700,3300,"ADRESSE");
+    painter.drawText(7700,3300,"GESTION");
+    QSqlQuery query;
+    query.prepare("<SELECT CAST( GETDATE() AS Date ) ");
+    time_t tt;
+    struct tm* ti;
+    time(&tt);
+    ti=localtime(&tt);
+    asctime(ti);
+    painter.drawText(500,300, asctime(ti));
+    query.prepare("select CIN,NOM,PRENOM,GENDER,DATE_DE_NAISSANCE,ADRESSE,GESTION from PERSONNEL");
+    query.exec();
+    while (query.next())
+    {
+        painter.drawText(300,i,query.value(0).toString());
+        painter.drawText(1800,i,query.value(1).toString());
+        painter.drawText(2800,i,query.value(2).toString());
+        painter.drawText(3800,i,query.value(3).toString());
+        painter.drawText(4800,i,query.value(4).toString());
+        painter.drawText(6700,i,query.value(5).toString());
+        painter.drawText(7700,i,query.value(6).toString());
+        i = i +500;
+    }
+    int reponse = QMessageBox::question(this, "PDF généré", "Afficher le PDF ?", QMessageBox::Yes |  QMessageBox::No);
+    if (reponse == QMessageBox::Yes)
+    {
+        QDesktopServices::openUrl(QUrl::fromLocalFile("D:/Studies/SmartEventPlanner/ListePersonnels.pdf"));
+        painter.end();
+    }
+    if (reponse == QMessageBox::No)
+    {
+        painter.end();
+    }
 }
 void MainWindow::on_Perso_push_UpdateStats_clicked(){
     Perso_choix_pie();
@@ -737,7 +794,8 @@ void MainWindow::on_Event_push_Ajouter_clicked(){
     QTime TIME_E=ui->Event_time_Heure->time();
     int PRIX_F=ui->Event_line_PrixFournisseur->text().toInt();
     int PRIX_L=ui->Event_line_PrixLocal->text().toInt();
-    evenement E(ID,NOM,TYPE,LIEU,NOMBRE_PERSONNES,DATE_E,TIME_E,PRIX_F,PRIX_L);
+    int FACTURATION=PRIX_F+PRIX_L;
+    evenement E(ID,NOM,TYPE,LIEU,NOMBRE_PERSONNES,DATE_E,TIME_E,PRIX_F,PRIX_L,FACTURATION);
     bool test=E.AjouterE();
     if(test)
     {
@@ -746,6 +804,7 @@ void MainWindow::on_Event_push_Ajouter_clicked(){
         ui->Event_TableView->setModel(E.afficher());
         E.write(E.time(),"EVENEMENT: Ajout effectué");
         ui->Event_textbrowser->setText(E.read());
+        ui->Evento_label_SommeDT->setText(QString::number(FACTURATION));
     }
     else
     {
@@ -762,15 +821,17 @@ void MainWindow::on_Event_push_Modifier_clicked(){
     QTime TIME_E=ui->Event_time_Heure->time();
     int PRIX_F=ui->Event_line_PrixFournisseur->text().toInt();
     int PRIX_L=ui->Event_line_PrixLocal->text().toInt();
-    evenement E(ID,NOM,TYPE,LIEU,NOMBRE_PERSONNES,DATE_E,TIME_E,PRIX_F,PRIX_L);
+    int FACTURATION=PRIX_F+PRIX_L;
+    evenement E(ID,NOM,TYPE,LIEU,NOMBRE_PERSONNES,DATE_E,TIME_E,PRIX_F,PRIX_L,FACTURATION);
     bool test=E.ModifierE();
     if(test)
     {
         ui->Event_Label_GestionInfo->setText("Modification effectué");
-        ui->Event_combo_ID->setModel(E.afficher());
-        ui->Event_TableView->setModel(E.afficher_id());
+        ui->Event_combo_ID->setModel(E.afficher_id());
+        ui->Event_TableView->setModel(E.afficher());
         E.write(E.time(),"EVENEMENT: Modification Effectuée");
         ui->Event_textbrowser->setText(E.read());
+        ui->Evento_label_SommeDT->setText(QString::number(FACTURATION));
     }
     else
     {
@@ -839,6 +900,9 @@ void MainWindow::on_Event_combo_ID_currentIndexChanged(int){
             ui->Event_date_Date->setDate(query.value(5).toDate()) ;
             ui->Event_time_Heure->setTime(query.value(6).toTime()) ;
             ui->Event_Calander_2->setSelectedDate(query.value(5).toDate());
+            ui->Event_line_PrixFournisseur->setText(query.value(7).toString()) ;
+            ui->Event_line_PrixLocal->setText(query.value(8).toString()) ;
+            ui->Evento_label_SommeDT->setText(query.value(9).toString()) ;
         }
     }
     else
@@ -851,7 +915,7 @@ void MainWindow::Event_statistiques(QVector<double>* ticks,QVector<QString> *lab
 {
     QSqlQuery qry;
     int i=0;
-    qry.exec("SELECT ID FROM EVENTMENT");
+    qry.exec("SELECT ID FROM EVENEMENT");
     while (qry.next())
     {
         QString ID = qry.value(0).toString();
@@ -862,18 +926,21 @@ void MainWindow::Event_statistiques(QVector<double>* ticks,QVector<QString> *lab
 }
 void MainWindow::on_Event_push_UpdateStats_clicked()
 {
+    /***** Background *****/
     QLinearGradient gradient(0, 0, 0, 400);
     gradient.setColorAt(0, QColor(255, 255, 255));
-    ui->Event_Plot->setBackground(QBrush(gradient));
+    ui->Four_Plot->setBackground(QBrush(gradient));
     QCPBars *A = new QCPBars(ui->Event_Plot->xAxis, ui->Event_Plot->yAxis);
     A->setAntialiased(false);
     A->setStackingGap(1);
+    /***** Couleurs*****/
     A->setName("Les Nbr.Personnes selon les ID");
-    A->setPen(QPen(QColor(255, 0, 0).lighter(120)));
-    A->setBrush(QColor(39, 39, 39));
+    A->setPen(QPen(QColor(166, 38, 138).lighter(120)));
+    A->setBrush(QColor(134, 47, 147));
+    /***** Axe des abscisses *****/
     QVector<double> ticks;
     QVector<QString> labels;
-    Event_statistiques(&ticks,&labels);
+    Four_statistiques(&ticks,&labels);
     QSharedPointer<QCPAxisTickerText> textTicker(new QCPAxisTickerText);
     textTicker->addTicks(ticks, labels);
     ui->Event_Plot->xAxis->setTicker(textTicker);
@@ -885,10 +952,11 @@ void MainWindow::on_Event_push_UpdateStats_clicked()
     ui->Event_Plot->xAxis->setBasePen(QPen(Qt::black));
     ui->Event_Plot->xAxis->setTickPen(QPen(Qt::black));
     ui->Event_Plot->xAxis->grid()->setVisible(true);
-    ui->Event_Plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+    ui->Event_Plot->xAxis->grid()->setPen(QPen(QColor(134, 47, 147), 0, Qt::DotLine));
     ui->Event_Plot->xAxis->setTickLabelColor(Qt::black);
     ui->Event_Plot->xAxis->setLabelColor(Qt::black);
-    ui->Event_Plot->yAxis->setRange(0,10);
+    /***** Axe des ordonnées *****/
+    ui->Event_Plot->yAxis->setRange(0,200);
     ui->Event_Plot->yAxis->setPadding(5);
     ui->Event_Plot->yAxis->setLabel("NOMBRE_PERSONNES");
     ui->Event_Plot->yAxis->setBasePen(QPen(Qt::black));
@@ -897,10 +965,10 @@ void MainWindow::on_Event_push_UpdateStats_clicked()
     ui->Event_Plot->yAxis->grid()->setSubGridVisible(true);
     ui->Event_Plot->yAxis->setTickLabelColor(Qt::black);
     ui->Event_Plot->yAxis->setLabelColor(Qt::black);
-    ui->Event_Plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
-    ui->Event_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+    ui->Event_Plot->yAxis->grid()->setPen(QPen(QColor(134, 47, 147), 0, Qt::SolidLine));
+    ui->Event_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(134, 47, 147), 0, Qt::DotLine));
     QVector<double> PlaceData;
-    QSqlQuery q1("SELECT NOMBRE_PERSONNES FROM EVENTMENT");
+    QSqlQuery q1("SELECT NOMBRE_PERSONNES FROM EVENEMENT");
     while (q1.next())
     {
         int  nbr_fautee = q1.value(0).toInt();
@@ -921,8 +989,9 @@ void MainWindow::on_Event_push_Excel_clicked(){
     if (fileName.isEmpty())
         return;
     ExportExcelObject obj(fileName, "EVENEMENT", ui->Event_TableView);
-    obj.addField(7, "PRIX_F", "char(20)");
-    obj.addField(8, "PRIX_L", "char(20)");
+    obj.addField(7, "PRIX_F", "int");
+    obj.addField(8, "PRIX_L", "int");
+    obj.addField(9, "FACTURATION", "int");
     int retVal = obj.export2Excel();
     if( retVal > 0)
     {
@@ -931,6 +1000,12 @@ void MainWindow::on_Event_push_Excel_clicked(){
 }
 void MainWindow::on_Event_push_Fermer_clicked(){
     ui->stackedWidget->setCurrentIndex(1);
+}
+void MainWindow::on_Event_push_Calculate_clicked(){
+    int PRIX_F=ui->Event_line_PrixFournisseur->text().toInt();
+    int PRIX_L=ui->Event_line_PrixLocal->text().toInt();
+    int FACTURATION=PRIX_F+PRIX_L;
+    ui->Evento_label_SommeDT->setText(QString::number(FACTURATION));
 }
 void MainWindow::on_Event_Calander_2_selectionChanged(){
     ui->Event_date_Date->setDate(ui->Event_Calander_2->selectedDate());
@@ -955,9 +1030,6 @@ void MainWindow::on_Event_Calander_2_selectionChanged(){
             }
         }
     }
-}
-void MainWindow::Event_UpdateCalender(QPainter *painter, const QRect &rect){
-
 }
 /*------------INTEGRATION LINA------------*/
 void MainWindow::on_Four_push_Ajouter_clicked(){
@@ -1068,8 +1140,8 @@ void MainWindow::on_Four_push_UpdateStats_clicked(){
     A->setStackingGap(1);
     /***** Couleurs*****/
     A->setName("Les prix des materiels selon les ID");
-    A->setPen(QPen(QColor(255, 0, 0).lighter(120)));
-    A->setBrush(QColor(39, 39, 39));
+    A->setPen(QPen(QColor(166, 38, 138).lighter(120)));
+    A->setBrush(QColor(134, 47, 147));
     /***** Axe des abscisses *****/
     QVector<double> ticks;
     QVector<QString> labels;
@@ -1085,7 +1157,7 @@ void MainWindow::on_Four_push_UpdateStats_clicked(){
     ui->Four_Plot->xAxis->setBasePen(QPen(Qt::black));
     ui->Four_Plot->xAxis->setTickPen(QPen(Qt::black));
     ui->Four_Plot->xAxis->grid()->setVisible(true);
-    ui->Four_Plot->xAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+    ui->Four_Plot->xAxis->grid()->setPen(QPen(QColor(134, 47, 147), 0, Qt::DotLine));
     ui->Four_Plot->xAxis->setTickLabelColor(Qt::black);
     ui->Four_Plot->xAxis->setLabelColor(Qt::black);
     /***** Axe des ordonnées *****/
@@ -1098,8 +1170,8 @@ void MainWindow::on_Four_push_UpdateStats_clicked(){
     ui->Four_Plot->yAxis->grid()->setSubGridVisible(true);
     ui->Four_Plot->yAxis->setTickLabelColor(Qt::black);
     ui->Four_Plot->yAxis->setLabelColor(Qt::black);
-    ui->Four_Plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
-    ui->Four_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
+    ui->Four_Plot->yAxis->grid()->setPen(QPen(QColor(134, 47, 147), 0, Qt::SolidLine));
+    ui->Four_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(134, 47, 147), 0, Qt::DotLine));
     QVector<double> PlaceData;
     QSqlQuery q1("SELECT PRIX FROM FOURNISSEUR");
     while (q1.next())
@@ -1150,7 +1222,7 @@ void MainWindow::on_Four_line_Recherche_textChanged(const QString &arg1){
 }
 void MainWindow::on_Four_push_SupprimerTextBrowser_clicked(){
     F.clearh();
-    ui->Four_textbrowser->setText(L.read());
+    ui->Four_textbrowser->setText(F.read());
 }
 void MainWindow::on_Four_push_Photo_clicked(){
     QString filename = QFileDialog::getOpenFileName(this,tr("choose"),"",tr(""));
@@ -1307,8 +1379,8 @@ void MainWindow::on_Loc_push_UpdateStats_clicked(){
     A->setStackingGap(1);
     /***** Couleurs*****/
     A->setName("Les Prix des Locaux selon les NOM");
-    A->setPen(QPen(QColor(255, 0, 0).lighter(120)));
-    A->setBrush(QColor(39, 39, 39));
+    A->setPen(QPen(QColor(166, 38, 138).lighter(120)));
+    A->setBrush(QColor(134, 47, 147));
     /***** Axe des abscisses *****/
     QVector<double> ticks;
     QVector<QString> labels;
@@ -1337,7 +1409,7 @@ void MainWindow::on_Loc_push_UpdateStats_clicked(){
     ui->Loc_Plot->yAxis->grid()->setSubGridVisible(true);
     ui->Loc_Plot->yAxis->setTickLabelColor(Qt::black);
     ui->Loc_Plot->yAxis->setLabelColor(Qt::black);
-    ui->Loc_Plot->yAxis->grid()->setPen(QPen(QColor(130, 130, 130), 0, Qt::SolidLine));
+    ui->Loc_Plot->yAxis->grid()->setPen(QPen(QColor(134, 47, 147), 0, Qt::SolidLine));
     ui->Loc_Plot->yAxis->grid()->setSubGridPen(QPen(QColor(130, 130, 130), 0, Qt::DotLine));
     QVector<double> PlaceData;
     QSqlQuery q1("SELECT PRIX FROM LOCAUX");

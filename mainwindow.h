@@ -85,6 +85,7 @@ private slots:
     void on_Perso_TableView_pressed(const QModelIndex &index);
     void update_RFID();
     void on_Perso_push_Arduino_clicked();
+    void on_Perso_push_ExportPDF_clicked();
     /*INTEGRATION ALA*/
     void on_Sponso_push_Ajouter_clicked();
     void on_Sponso_push_Modifier_clicked();
@@ -117,7 +118,7 @@ private slots:
     void on_Event_Calander_2_selectionChanged();
     void on_Event_push_UpdateStats_clicked();
     void Event_statistiques(QVector<double>* ticks,QVector<QString> *labels);
-    void Event_UpdateCalender(QPainter *painter, const QRect &rect);
+    void on_Event_push_Calculate_clicked();
     /*INTEGRATION LINA*/
     void on_Four_push_Ajouter_clicked();
     void on_Four_push_Modifier_clicked();

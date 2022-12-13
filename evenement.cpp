@@ -18,8 +18,9 @@ evenement::evenement()
         TIME_E=QTime();
         PRIX_F=0;
         PRIX_L=0;
+        FACTURATION=0;
 }
-evenement::evenement(int ID, QString NOM, QString TYPE,QString LIEU,int NOMBRE_PERSONNES, QDate DATE_E, QTime TIME_E, int PRIX_F, int PRIX_L){
+evenement::evenement(int ID, QString NOM, QString TYPE,QString LIEU,int NOMBRE_PERSONNES, QDate DATE_E, QTime TIME_E, int PRIX_F, int PRIX_L,int FACTURATION){
     this->ID=ID;
     this->NOM=NOM;
     this->TYPE=TYPE;
@@ -29,6 +30,7 @@ evenement::evenement(int ID, QString NOM, QString TYPE,QString LIEU,int NOMBRE_P
     this->TIME_E=TIME_E;
     this->PRIX_F=PRIX_F;
     this->PRIX_L=PRIX_L;
+    this->FACTURATION=FACTURATION;
 }
 /**************************************/
 int evenement::getid(){return ID;}
@@ -40,6 +42,7 @@ QDate evenement::getdate(){return DATE_E;}
 QTime evenement::gettime(){return TIME_E;}
 int evenement::getprix_f(){return PRIX_F;}
 int evenement::getprix_l(){return PRIX_L;}
+int evenement::getfact(){return FACTURATION;}
 /**************************************/
 void evenement::setid(int ID){this->ID=ID;}
 void evenement::setnom(QString NOM){this->NOM=NOM;}
@@ -50,11 +53,12 @@ void evenement::setdate(QDate DATE_E){this->DATE_E=DATE_E;}
 void evenement::settime(QTime TIME_E){this->TIME_E=TIME_E;}
 void evenement::setprix_f(int PRIX_F){this->PRIX_F=PRIX_F;}
 void evenement::setprix_l(int PRIX_L){this->PRIX_L=PRIX_L;}
+void evenement::setfact(int FACTURATION){this->FACTURATION=FACTURATION;}
 /**************************************/
 bool evenement::AjouterE(){
     QSqlQuery query;
     QString id_string=QString::number(ID);
-         query.prepare("INSERT INTO EVENEMENT(ID,NOM,TYPE,LIEU,NOMBRE_PERSONNES,DATE_E,TIME_E,PRIX_F,PRIX_L)" "VALUES (:ID,:NOM,:TYPE,:LIEU,:NOMBRE_PERSONNES,:DATE_E,:TIME_E,:PRIX_F,:PRIX_L)");
+         query.prepare("INSERT INTO EVENEMENT(ID,NOM,TYPE,LIEU,NOMBRE_PERSONNES,DATE_E,TIME_E,PRIX_F,PRIX_L,FACTURATION)" "VALUES (:ID,:NOM,:TYPE,:LIEU,:NOMBRE_PERSONNES,:DATE_E,:TIME_E,:PRIX_F,:PRIX_L,:FACTURATION)");
          query.bindValue(":ID", ID);
          query.bindValue(":NOM", NOM);
          query.bindValue(":TYPE", TYPE);
@@ -64,6 +68,7 @@ bool evenement::AjouterE(){
          query.bindValue(":TIME_E", TIME_E);
          query.bindValue(":PRIX_F", PRIX_F);
          query.bindValue(":PRIX_L", PRIX_L);
+         query.bindValue(":FACTURATION", FACTURATION);
     return query.exec();
 }
 bool evenement::SupprimerE(int ID){
@@ -75,7 +80,7 @@ bool evenement::SupprimerE(int ID){
 bool evenement::ModifierE()
 {
     QSqlQuery query;
-        query.prepare("UPDATE EVENEMENT SET NOM=:NOM, TYPE=:TYPE, LIEU=:LIEU, NOMBRE_PERSONNES=:NOMBRE_PERSONNES, DATE_E=:DATE_E, TIME_E=:TIME_E WHERE ID=:ID");
+        query.prepare("UPDATE EVENEMENT SET NOM=:NOM, TYPE=:TYPE, LIEU=:LIEU, NOMBRE_PERSONNES=:NOMBRE_PERSONNES, DATE_E=:DATE_E, TIME_E=:TIME_E, PRIX_L=:PRIX_L, PRIX_F=:PRIX_F, FACTURATION=:FACTURATION WHERE ID=:ID");
         query.bindValue(":ID", ID);
         query.bindValue(":NOM", NOM);
         query.bindValue(":TYPE", TYPE);
@@ -83,13 +88,16 @@ bool evenement::ModifierE()
         query.bindValue(":NOMBRE_PERSONNES", NOMBRE_PERSONNES);
         query.bindValue(":DATE_E", DATE_E);
         query.bindValue(":TIME_E", TIME_E);
+        query.bindValue(":PRIX_F", PRIX_F);
+        query.bindValue(":PRIX_L", PRIX_L);
+        query.bindValue(":FACTURATION", FACTURATION);
     return query.exec();
 }
 /**************************************/
 QSqlQueryModel* evenement::afficher()
 {
     QSqlQueryModel* model=new QSqlQueryModel();
-          model->setQuery("SELECT* FROM EVENEMENT");
+          model->setQuery("SELECT * FROM EVENEMENT");
           model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID"));
           model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
           model->setHeaderData(2, Qt::Horizontal, QObject::tr("TYPE"));
@@ -97,6 +105,9 @@ QSqlQueryModel* evenement::afficher()
           model->setHeaderData(4, Qt::Horizontal, QObject::tr("NOMBRE_PERSONNES"));
           model->setHeaderData(5, Qt::Horizontal, QObject::tr("DATE_E"));
           model->setHeaderData(6, Qt::Horizontal, QObject::tr("TIME_E"));
+          model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_F"));
+          model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_L"));
+          model->setHeaderData(8, Qt::Horizontal, QObject::tr("FACTURATION"));
     return  model;
 }
 QSqlQueryModel* evenement::afficher_id()
@@ -118,6 +129,9 @@ QSqlQueryModel * evenement::tri_id()
         model->setHeaderData(4, Qt::Horizontal, QObject::tr("NOMBRE_PERSONNES"));
         model->setHeaderData(5, Qt::Horizontal, QObject::tr("DATE_E"));
         model->setHeaderData(6, Qt::Horizontal, QObject::tr("TIME_E"));
+        model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_F"));
+        model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_L"));
+        model->setHeaderData(8, Qt::Horizontal, QObject::tr("FACTURATION"));
     return model;
 }
 QSqlQueryModel * evenement::tri_type()
@@ -131,6 +145,9 @@ QSqlQueryModel * evenement::tri_type()
         model->setHeaderData(4, Qt::Horizontal, QObject::tr("NOMBRE_PERSONNES"));
         model->setHeaderData(5, Qt::Horizontal, QObject::tr("DATE_E"));
         model->setHeaderData(6, Qt::Horizontal, QObject::tr("TIME_E"));
+        model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_F"));
+        model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_L"));
+        model->setHeaderData(8, Qt::Horizontal, QObject::tr("FACTURATION"));
     return model;
 }
 QSqlQueryModel * evenement::tri_nbrpersonnes()
@@ -144,6 +161,9 @@ QSqlQueryModel * evenement::tri_nbrpersonnes()
         model->setHeaderData(4, Qt::Horizontal, QObject::tr("NOMBRE_PERSONNES"));
         model->setHeaderData(5, Qt::Horizontal, QObject::tr("DATE_E"));
         model->setHeaderData(6, Qt::Horizontal, QObject::tr("TIME_E"));
+        model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_F"));
+        model->setHeaderData(7, Qt::Horizontal, QObject::tr("PRIX_L"));
+        model->setHeaderData(8, Qt::Horizontal, QObject::tr("FACTURATION"));
     return model;
 }
 

@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="Login">
      <widget class="QLabel" name="Login_Background">
@@ -74,6 +74,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       <property name="text">
        <string>Login</string>
       </property>
+      <property name="shortcut">
+       <string>Return</string>
+      </property>
      </widget>
      <widget class="QLineEdit" name="Login_line_CIN">
       <property name="geometry">
@@ -96,7 +99,7 @@ border-radius: 10px;
 }</string>
       </property>
       <property name="text">
-       <string>0</string>
+       <string/>
       </property>
       <property name="frame">
        <bool>false</bool>
@@ -126,7 +129,7 @@ border-radius: 10px;
 }</string>
       </property>
       <property name="text">
-       <string>admin</string>
+       <string/>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
@@ -645,7 +648,7 @@ QTabBar::tab:left:last, QTabBar::tab:right:last,QTabBar::tab:left:only-one, QTab
 }</string>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="Personnels">
        <attribute name="title">
@@ -2042,6 +2045,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       <property name="text">
        <string>Fermer</string>
       </property>
+      <property name="shortcut">
+       <string>Esc</string>
+      </property>
      </widget>
      <zorder>Perso_Background1</zorder>
      <zorder>Perso_Title</zorder>
@@ -2286,31 +2292,6 @@ QGroupBox::title  {
             </property>
            </widget>
           </item>
-          <item row="12" column="1" colspan="2">
-           <widget class="QTimeEdit" name="Event_time_Heure">
-            <property name="font">
-             <font>
-              <family>Montserrat Medium</family>
-              <pointsize>10</pointsize>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QTimeEdit
-{
-    subcontrol-origin: padding;
-    subcontrol-position: top right;
-    selection-background-color: #111;
-    selection-color: yellow;
-    color: black;
-    background-color: rgba(134, 47, 147, 50);
-    border-style: solid;
-    border: 1px solid #1e1e1e;
-    border-radius: 5;
-    padding: 1px 0px 1px 20px;
-}</string>
-            </property>
-           </widget>
-          </item>
           <item row="2" column="0" rowspan="2">
            <widget class="QLabel" name="Event_label_Nom">
             <property name="font">
@@ -2470,6 +2451,31 @@ border-radius: 10px;
             </property>
            </widget>
           </item>
+          <item row="11" column="1" rowspan="2" colspan="2">
+           <widget class="QTimeEdit" name="Event_time_Heure">
+            <property name="font">
+             <font>
+              <family>Montserrat Medium</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QTimeEdit
+{
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    selection-background-color: #111;
+    selection-color: yellow;
+    color: black;
+    background-color: rgba(134, 47, 147, 50);
+    border-style: solid;
+    border: 1px solid #1e1e1e;
+    border-radius: 5;
+    padding: 1px 0px 1px 20px;
+}</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </widget>
@@ -2585,9 +2591,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
        <widget class="QTextBrowser" name="Event_textbrowser">
         <property name="geometry">
          <rect>
-          <x>850</x>
+          <x>840</x>
           <y>290</y>
-          <width>341</width>
+          <width>351</width>
           <height>251</height>
          </rect>
         </property>
@@ -2598,9 +2604,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
        <widget class="QPushButton" name="Event_push_SupprimerTextBrowser">
         <property name="geometry">
          <rect>
-          <x>970</x>
+          <x>960</x>
           <y>550</y>
-          <width>110</width>
+          <width>111</width>
           <height>21</height>
          </rect>
         </property>
@@ -2655,9 +2661,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
         <property name="geometry">
          <rect>
           <x>840</x>
-          <y>60</y>
+          <y>40</y>
           <width>351</width>
-          <height>141</height>
+          <height>181</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -2688,10 +2694,26 @@ QGroupBox::title  {
            <x>20</x>
            <y>40</y>
            <width>321</width>
-           <height>61</height>
+           <height>69</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="Labels_Lines_3">
+          <item row="2" column="1" rowspan="2" colspan="2">
+           <widget class="QLineEdit" name="Event_line_PrixFournisseur">
+            <property name="styleSheet">
+             <string notr="true">QLineEdit {
+	background-color: rgba(134, 47, 147, 50);
+		border: 2px solid rgba(134, 47, 147, 200);
+			border-radius: 10px;
+}
+QLineEdit:hover {
+	background-color: rgba(134, 47, 147, 50);
+		border: 2px solid rgba(47, 127, 147, 200);
+			border-radius: 10px;
+}</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0" rowspan="2">
            <widget class="QLabel" name="Event_label_PrixLocal">
             <property name="font">
@@ -2708,22 +2730,6 @@ QGroupBox::title  {
             </property>
             <property name="alignment">
              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1" rowspan="2" colspan="2">
-           <widget class="QLineEdit" name="Event_line_PrixLocal">
-            <property name="styleSheet">
-             <string notr="true">QLineEdit {
-background-color: rgba(134, 47, 147, 50);
-border: 2px solid rgba(134, 47, 147, 200);
-border-radius: 10px;
-}
-QLineEdit:hover {
-background-color: rgba(134, 47, 147, 50);
-border: 1px solid rgba(128, 97, 171, 200);
-border-radius: 10px;
-}</string>
             </property>
            </widget>
           </item>
@@ -2746,30 +2752,81 @@ border-radius: 10px;
             </property>
            </widget>
           </item>
-          <item row="2" column="1" rowspan="2" colspan="2">
-           <widget class="QLineEdit" name="Event_line_PrixFournisseur">
+          <item row="0" column="1" rowspan="2" colspan="2">
+           <widget class="QLineEdit" name="Event_line_PrixLocal">
             <property name="styleSheet">
              <string notr="true">QLineEdit {
-	background-color: rgba(134, 47, 147, 50);
-		border: 2px solid rgba(134, 47, 147, 200);
-			border-radius: 10px;
+background-color: rgba(134, 47, 147, 50);
+border: 2px solid rgba(134, 47, 147, 200);
+border-radius: 10px;
 }
 QLineEdit:hover {
-	background-color: rgba(134, 47, 147, 50);
-		border: 2px solid rgba(47, 127, 147, 200);
-			border-radius: 10px;
+background-color: rgba(134, 47, 147, 50);
+border: 1px solid rgba(128, 97, 171, 200);
+border-radius: 10px;
 }</string>
             </property>
            </widget>
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="Event_push_Excel">
+        <widget class="QLabel" name="Evento_label_SommeDT">
          <property name="geometry">
           <rect>
-           <x>120</x>
-           <y>110</y>
-           <width>110</width>
+           <x>130</x>
+           <y>120</y>
+           <width>91</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QLabel" name="Event_label_Somme">
+         <property name="geometry">
+          <rect>
+           <x>70</x>
+           <y>120</y>
+           <width>51</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Somme</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="Evento_label_SommeDT_2">
+         <property name="geometry">
+          <rect>
+           <x>230</x>
+           <y>120</y>
+           <width>31</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>DT</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="Event_push_Calculate">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>150</y>
+           <width>91</width>
            <height>21</height>
           </rect>
          </property>
@@ -2789,7 +2846,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
 }</string>
          </property>
          <property name="text">
-          <string>Excel</string>
+          <string>Calculate</string>
          </property>
         </widget>
        </widget>
@@ -2877,6 +2934,34 @@ QCalendarWidget QWidget#qt_calendar_navigationbar{
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="Event_push_Excel">
+        <property name="geometry">
+         <rect>
+          <x>960</x>
+          <y>260</y>
+          <width>110</width>
+          <height>21</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>Montserrat Medium</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+background-color: rgba(199, 153, 207, 200);
+border-radius: 10px;
+}
+QPushButton:hover {
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(117, 201, 187, 200), stop:1 rgba(199, 153, 207, 200));
+}</string>
+        </property>
+        <property name="text">
+         <string>Excel</string>
         </property>
        </widget>
       </widget>
@@ -3187,6 +3272,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       </property>
       <property name="text">
        <string>Fermer</string>
+      </property>
+      <property name="shortcut">
+       <string>Esc</string>
       </property>
      </widget>
      <widget class="QLabel" name="Event_Title">
@@ -4405,6 +4493,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       <property name="text">
        <string>Fermer</string>
       </property>
+      <property name="shortcut">
+       <string>Esc</string>
+      </property>
      </widget>
      <widget class="QLabel" name="Four_Background">
       <property name="geometry">
@@ -5366,6 +5457,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       </property>
       <property name="text">
        <string>Fermer</string>
+      </property>
+      <property name="shortcut">
+       <string>Esc</string>
       </property>
      </widget>
     </widget>
@@ -6434,6 +6528,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
       </property>
       <property name="text">
        <string>Fermer</string>
+      </property>
+      <property name="shortcut">
+       <string>Esc</string>
       </property>
      </widget>
     </widget>

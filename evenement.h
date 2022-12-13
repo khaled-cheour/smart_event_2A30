@@ -18,7 +18,7 @@ class evenement
 {
 public:
     evenement();
-    evenement(int,QString,QString,QString,int,QDate,QTime,int,int);
+    evenement(int,QString,QString,QString,int,QDate,QTime,int,int,int);
 
     int getid();
     QString getnom();
@@ -29,6 +29,7 @@ public:
     QTime gettime();
     int getprix_f();
     int getprix_l();
+    int getfact();
 
     void setid(int);
     void setnom(QString);
@@ -39,6 +40,7 @@ public:
     void settime(QTime);
     void setprix_f(int);
     void setprix_l(int);
+    void setfact(int);
 
     bool AjouterE();
     bool ModifierE();
@@ -71,6 +73,7 @@ private:
     QTime TIME_E;
     int PRIX_F;
     int PRIX_L;
+    int FACTURATION;
 };
 
 #endif // EVENEMENT_H
